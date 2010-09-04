@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Describes how to install GDL in various environments.
 
 = Introduction =
 The source code for GDL can be obtained from the [http://gnudatalanguage.sourceforge.net/ GDL homepage].
