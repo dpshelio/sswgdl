@@ -1,0 +1,33 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+The source code for GDL can be obtained from the [http://gnudatalanguage.sourceforge.net/ GDL homepage].
+This source code needs to be compiled in order to create a gdl executable.
+
+= Mac OSX =
+
+Unfortunately, GDL uses many libraries which are not available with a 
+standard installation of Mac OS X.  Some programs such as [http://www.macports.org/ macports] can make
+this process easier by automatically downloading compiled versions of the libraries GDL needs.  
+
+ # Install Apple's [http://developer.apple.com/technologies/tools/xcode.html XCode].  This will install many important libraries as well as install a compiler, gcc.
+ # Install [http://www.macports.org/ macports].
+ # Run the following command  {{{ sudo port install gnudatalanguage }}} which will (by default) install the GDL executable in /opt/local/bin/
+ # Now try running GDL by simply typing {{{gdl}}} in the Terminal.
+
+The next step is to set up GDL to recognize SSW.  The following assumes that you already have an installation of SSW in /usr/local/ssw.  If not go to the [http://www.lmsal.com/solarsoft/ssw_install.html SSW installation page] and follow the instructions.  
+
+= Windows =
+
+Compiling software is difficult under any windows therefore our solution to this problem is to install a virtual machine which itself runs some version of linux and install GDL inside this virtual machine. Our virtual machine of choice here is [http://www.virtualbox.org/ VirtualBox] and our linux distribution will be Fedora. Fedora earns our respect because GDL is included directly in its software installer.
+
+ # Install Virtual box which can be found here. The VirtualBox Personal Use and Evaluation License (PUEL) provides all the functionality that you will need for GDL.
+ # Next we must install Fedora 13 inside this virtual box. An easy install designed specifically for Virtual box can be found here. A small charge of $3 will give you access to an ftp download as well as the vboxguestadditions which provides seamless mode (fedora windows mingle with normal windows), and easy file sharing between your virtual box and windows.
+ # Now start virtual box and create a new system with your fedora virtual box image.
+ # Once it is install start your new fedora system. The default login and password for fedora is _user_ and _admin_.
+ # We can now easily install GDL by going to the system menu and choosing "add/remove software". You should install GDL, GDL common tools.CVS, and tcsh (our terminal of choice).
+
+The next step is to setup GDL to recognize SSW.  The following assumes that you already have an installation of SSW in /usr/local/ssw.  If not go to the [http://www.lmsal.com/solarsoft/ssw_install.html SSW installation page] and follow the instructions.  
+
+= Linux =
+Add instructions here
