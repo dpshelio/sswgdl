@@ -4,6 +4,17 @@
 
 The point of this project is to enable GDL to fully run the SolarSoft library.
 
+= The Team =
+ * Laszlo E.
+ * Steven C. 
+ * Richard S., 
+ * Jim M.,
+ * Pascal S.
+ * Andre?, Steven, 
+ * Peter G.?, 
+ * dperezsuarez
+ * Jack I.?
+
 = To Do List =
 
  * need a platform to compile latest version of gdl
