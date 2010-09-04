@@ -1,0 +1,14 @@
+#summary Introduction to the SSWGDL project
+
+= Introduction =
+
+The point of this project is to enable GDL to fully run the SolarSoft library.
+
+= Details =
+
+
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
