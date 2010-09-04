@@ -10,7 +10,7 @@ The point of this project is to enable GDL to fully run the SolarSoft library.
  * Richard S., 
  * Jim M.,
  * Pascal S.
- * Andre?, Steven, 
+ * Andre?  
  * Peter G.?, 
  * dperezsuarez
  * Jack I.?
