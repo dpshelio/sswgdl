@@ -1,0 +1,4 @@
+#A list of online GDL resources
+
+  * [http://gnudatalanguage.sourceforge.net/ GDL Official Page]
+  * [http://aramis.obspm.fr/~coulais/IDL_et_GDL/memo_GDL.html Compilation ou installation de GDL sous GNU/Linux ou Mac OS X] in french
