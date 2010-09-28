@@ -7,7 +7,7 @@ This source code needs to be compiled in order to create a gdl executable.
 = Mac OSX =
 
 Unfortunately, GDL uses many libraries which are not available with a 
-standard installation of Mac OS X.  Some programs such as [http://www.macports.org/ macports] can make
+standard installation of Mac OS X.  Some programs such as [http://www.macports.org/ macports] or [http://www.finkproject.org/index.php Fink] can make
 this process easier by automatically downloading compiled versions of the libraries GDL needs.  
 
  # Install Apple's [http://developer.apple.com/technologies/tools/xcode.html XCode].  This will install many important libraries as well as install a compiler, gcc.
@@ -16,6 +16,9 @@ this process easier by automatically downloading compiled versions of the librar
  # Now try running GDL by simply typing {{{gdl}}} in the Terminal.
 
 The next step is to set up GDL to recognize SSW.  The following assumes that you already have an installation of SSW in /usr/local/ssw.  If not go to the [http://www.lmsal.com/solarsoft/ssw_install.html SSW installation page] and follow the instructions.  
+
+ * Fink - GDL 0.9rc4-3 http://pdb.finkproject.org/pdb/package.php/gdl 
+ * Macports - GDL  2.30.0? http://trac.macports.org/browser/trunk/dports/gnome/gdl/Portfile
 
 = Windows =
 
