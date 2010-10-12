@@ -1,0 +1,4 @@
+#summary One-sentence summary of this page.
+#labels Phase-Implementation
+
+We now have a google group to handle all emails and keep a persistent record of information sent back and forth through email.  It is set up as a google group with the same title "sswgdl".  Please sign up there or email me to get an account setup for you.
