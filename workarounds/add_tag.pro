@@ -47,6 +47,7 @@
 ;                            dimension matches last dimension of tag_value, then add_tag will
 ;                            place each tag_value in the corresponding structure element, unless
 ;                            no_pair is set.
+;		Version 6, 26-Oct-2010, Schwartz - made GDL compatible
 ;
 ;-
 ;----------------------------------------------------------------------------
