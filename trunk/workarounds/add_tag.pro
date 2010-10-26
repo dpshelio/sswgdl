@@ -17,7 +17,7 @@
 ;               INDEX = index or tag name where to append new tag [def = last]
 ;               ERR   = error message [blank if ok]
 ;               DUPLICATE = set to allow duplicate tag names
-;		TOP_LEVEL = If set, then only the top level is searched to
+;				TOP_LEVEL = If set, then only the top level is searched to
 ;			    determine if the tag already exists.
 ;               NO_COPY = do not make copy of input TAG variable
 ;                         (it will be destroyed after input)
@@ -35,10 +35,10 @@
 ;
 ; Version     :	Version 1, 7 November 1994 -- written
 ;               Version 2, 16 June 1996    -- cleaned up
-;		Version 3, 11-Aug-1997, William Thompson, GSFC
-;			Added keyword TOP_LEVEL
-;		Version 4, 8-Oct-1998, Zarro (SMA/GSFC) - converted to using
-;                       CREATE_STRUCT
+;				Version 3, 11-Aug-1997, William Thompson, GSFC
+;						   Added keyword TOP_LEVEL
+;				Version 4, 8-Oct-1998, Zarro (SMA/GSFC) - converted to using
+;                          CREATE_STRUCT
 ;               Version 5, 24-Dec-2004, Zarro (L-3Com/GSFC) - vectorized
 ;                          01-Feb-05, Csillaghy (Univ. Applied Sciences NW Switzerland)
 ;                          - changed n_elements( struct ) to size(struct /dim ), see at the end.
@@ -47,7 +47,7 @@
 ;                            dimension matches last dimension of tag_value, then add_tag will
 ;                            place each tag_value in the corresponding structure element, unless
 ;                            no_pair is set.
-;		Version 6, 26-Oct-2010, Schwartz - made GDL compatible
+;				Version 6, 26-Oct-2010, Schwartz - made GDL compatible
 ;
 ;-
 ;----------------------------------------------------------------------------
