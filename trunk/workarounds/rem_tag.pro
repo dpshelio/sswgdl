@@ -18,7 +18,8 @@
 ;
 ; Written     : 1-Dec-02, Zarro (EER/GSFC)
 ;
-; Modified    : 24-Dec-04, Zarro (L-3Com/GSFC) 
+; Modified    : 26-Oct-2010, Ireland (GSFC) made rem_tag compatible with GDL
+;		24-Dec-04, Zarro (L-3Com/GSFC) 
 ;                - vectorized, and removed dangerous /free_mem
 ;               01-Feb-05, Csillaghy (Univ. Applied Sciences NW Switzerland)
 ;                - changed n_elements( struct ) to size(struct /dim ), see at the end.
