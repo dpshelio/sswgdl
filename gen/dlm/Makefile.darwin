@@ -1,0 +1,8 @@
+CC          = gcc
+F77         = f77
+
+# To make shareable objects:
+
+X_CFLAGS   = -fPIC -dynamic -O3
+X_LD_FLAGS = -bundle -flat_namespace -undefined suppress
+SO_EXT = so

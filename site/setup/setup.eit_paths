@@ -1,0 +1,17 @@
+#!/bin/csh -f
+#
+###########################################################################
+#   Site Dependent EIT paths
+#
+#   envs may be single-valued or a comma delimted list (handle different 
+#   pathnames on different machines at a given site)
+#     
+#   29-March-2000 - S.L.Freeland - provide site template
+###########################################################################
+setenv EIT_QUICKLOOK $HOME                 # quicklook data
+setenv EIT_QKL $EIT_QUICKLOOK              # quicklook synonym
+setenv EIT_LZ $HOME                        # level zero data
+setenv EIT_LZ1 $HOME                    
+setenv MOVIE_ARCHIVE $HOME                 # eit movie data
+###########################################################################
+

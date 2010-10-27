@@ -1,0 +1,123 @@
+#!/bin/csh -f 
+#
+# S.L. Freeland  3-Nov-1993 (usually run from ys_install)
+#		12-Dec-1993 
+#		23-Feb-1994 (get only 1 file, retry if size mismatch)
+#		 8-Jun-1994 change diagnostics
+#		13-sep-1994 minor syntax mods
+#		24-may-1996 minor mods for SSW use - rename to ssw_ftpget1
+#               29-May-1998 check 'ssw_tar_old_style' (old sunos)
+#               18-Sep-1998 use 'ls -n' insteaed of 'ls -l'
+#                           Per Barry Labonte - avoid bad parse
+#               25-Oct-1998 use 'ls -nl' (system 5 problem with just -n?)
+#               14-jul-2005 check $ssw_passive_ftp
+#               10-may-2005 change 'passive' to 'passive on'
+#               16-aug-2006 allow for Linux "ls -nl" differences
+#                1-may-2009 allow option to issue EPSV4 off per Andy Gopie
+#
+# ssw_install.ftpget1
+# get 1 file from host
+# 
+set checksize="0"
+set tries=1
+
+set chkenv=`printenv ssw_ftpget1`
+if ("$chkenv" != "") then   
+   set argx=($chkenv)
+else
+   if ($#argv == 0) then
+      set argx=$argv
+   endif
+endif
+
+if ($#argx == 0) then
+   echo Must supply file name..., exiting
+   exit
+else
+   set getfile=$argx[1]
+   set expect_size=" "
+   if ($#argx > 1) then
+      set getsize=$argx[2]
+      set expect_size=" Size: "$argx[2]" bytes"
+      set checksize="1"
+      if ($?ssw_retry) then
+         set tries=$ssw_retry
+      else
+         set tries="3"
+      endif
+   endif
+endif   
+
+if (!($?ssw_host)) then 
+   setenv ssw_host 150.144.30.91        # default = sohoftp
+endif
+
+set host=`hostname`			# local host name
+if (!($?user)) then
+   set user=`whoami`
+endif
+cd $SSW/offline/swmaint/tar		# where to stick them
+set ftpget = "$SSW/offline/swmaint/script/gettar.ftp"
+if (-e $ftpget) then
+   /bin/rm -f "$ftpget"
+endif
+
+set oldtardir=""
+set chkold=`printenv ssw_tar_old_style`
+if ($chkold == "1") then
+   echo "using old style tar files"
+   set oldtardir="_old_style"
+endif
+set passive=`printenv ssw_passive_ftp`
+set noepsv=`printenv ssw_noepsv`
+echo "noepsv"" "$noepsv
+
+#### build ftp script
+echo open $ssw_host 	 		>  $ftpget
+echo "user ftp "$user[1]"@"$host[1]	>> $ftpget
+if ($passive == "1")      echo passive on  >> $ftpget
+if ($noepsv  == "1")      echo epsv4 off >> $ftpget
+echo binary		 		>> $ftpget
+echo cd /solarsoft/offline/swmaint/tar"$oldtardir" >> $ftpget
+echo get $getfile			>> $ftpget
+echo bye		 		>> $ftpget
+####
+set try=0
+
+while ($try < $tries)
+   echo "Starting transfer of file: "$getfile"$expect_size"
+cat $ftpget
+   ftp -in < $ftpget
+   @ try = $try + 1
+   set no_sizecheck=`printenv ssw_skip_sizechk`
+   if ("$no_sizecheck" != "") then
+      echo "Skipping local vs master size check"
+      set checksize=0
+      set try = $tries
+   endif
+
+   if ($checksize) then
+      if (-e $getfile) then 
+         set newsize=`/bin/ls -nl $getfile`
+	 set nfields=$#newsize
+         @ pos1 = $nfields - 4
+         @ pos2 = $nfields - 5
+         set chk1=$newsize[$pos1]
+         set chk2=$newsize[$pos2]
+         if ($chk1 != $getsize && $chk2 != $getsize) then
+            echo "Problem with transfer of $getfile, transfer number $try"
+            if ($try == $tries) then
+               echo "Giving up on file $getfile after $tries tries"
+	       setenv ssw_ftpok 0
+               /bin/rm -f $getfile		#remove incomplete file
+            endif
+         else
+            set try = $tries
+         endif
+      else
+         echo no file was transfered, will retry
+      endif
+   endif
+end
+
+exit

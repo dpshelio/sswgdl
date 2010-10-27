@@ -1,0 +1,63 @@
+#!/bin/csh -f
+# Solar-SoftWare (SSW) installation Script Generated: Tue Oct 26 22:01:47 EDT 2010 by User:  schriste
+setenv SSW /Users/schriste/Documents/sswgdl/
+setenv ssw_sw_sets "ssw_ssw_site ssw_packages_binaries ssw_ssw_gen"
+setenv ssw_db_sets ""
+setenv ssw /Users/schriste/Documents/sswgdl/
+setenv soho /Users/schriste/Documents/sswgdl//soho
+setenv yohkoh /Users/schriste/Documents/sswgdl//yohkoh
+setenv smm /Users/schriste/Documents/sswgdl//smm
+setenv spartan /Users/schriste/Documents/sswgdl//spartan
+setenv packages /Users/schriste/Documents/sswgdl//packages
+setenv trace /Users/schriste/Documents/sswgdl//trace
+setenv cgro /Users/schriste/Documents/sswgdl//cgro
+setenv radio /Users/schriste/Documents/sswgdl//radio
+setenv optical /Users/schriste/Documents/sswgdl//optical
+setenv hessi /Users/schriste/Documents/sswgdl//hessi
+setenv sxi /Users/schriste/Documents/sswgdl//sxi
+setenv goes /Users/schriste/Documents/sswgdl//goes
+setenv solarb /Users/schriste/Documents/sswgdl//solarb
+setenv hinode /Users/schriste/Documents/sswgdl//hinode
+setenv vobs /Users/schriste/Documents/sswgdl//vobs
+setenv stereo /Users/schriste/Documents/sswgdl//stereo
+setenv ydb /Users/schriste/Documents/sswgdl//dbase/yohkoh
+setenv sohodb /Users/schriste/Documents/sswgdl//dbase/soho
+setenv spartandb /Users/schriste/Documents/sswgdl//dbase/spartan
+setenv tracedb /Users/schriste/Documents/sswgdl//dbase/trace
+setenv bin /Users/schriste/Documents/sswgdl//bin
+echo "Uncompressing file: "ssw_packages_binaries.tar.Z
+gunzip -f /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_packages_binaries.tar.Z
+mkdir -p $packages
+cd $packages
+/bin/rm -rf binaries
+mkdir binaries
+chmod 775 binaries
+echo "Installing SW instrument: "binaries
+tar -xf /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_packages_binaries.tar binaries
+echo removing /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_packages_binaries.tar
+/bin/rm -f /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_packages_binaries.tar 
+echo "Uncompressing file: "ssw_ssw_gen.tar.Z
+gunzip -f /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_gen.tar.Z
+mkdir -p $ssw
+cd $ssw
+/bin/rm -rf gen
+mkdir gen
+chmod 775 gen
+echo "Installing SW instrument: "gen
+tar -xf /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_gen.tar gen
+echo removing /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_gen.tar
+/bin/rm -f /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_gen.tar 
+echo "Uncompressing file: "ssw_ssw_site.tar.Z
+gunzip -f /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_site.tar.Z
+mkdir -p $ssw
+cd $ssw
+/bin/rm -rf site
+mkdir site
+chmod 775 site
+echo "Installing SW instrument: "site
+tar -xf /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_site.tar site
+echo removing /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_site.tar
+/bin/rm -f /Users/schriste/Documents/sswgdl//offline/swmaint/tar/ssw_ssw_site.tar 
+unsetenv ssw_full 0
+setenv ssw_fullok 1
+cp /Users/schriste/Documents/sswgdl//offline/swmaint/script/ssw_site.config /Users/schriste/Documents/sswgdl//site/setup/

@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>VXO_PREP IDL Users Guide</title>
+		
+		<link rel="stylesheet" type="text/css" href="../../shared/style.css" />
+		
+		<script type="text/javascript" src="../../shared/utility.js"></script>
+		<script type="text/javascript" src="../../shared/popup.js"></script>
+		
+	</head>
+	<body>
+		<h1>VXO_PREP IDL Users Guide</h1>
+		<h2>L. I. Etesi (CUA,FHNW&#47;GSFC), Updated: 2009-05-05</h2>
+				
+		<h2>Synopsis</h2>
+		<p class="code_red">vxo = obj_new('<b>vxo_prep</b>')<br/>
+		vxo-&gt;preprocess, <i>instrument, [infile], [outfile=outfile], [list-of-args]</i></p>
+		
+		<h2>Requirements</h2>
+		<p><i>vxo_prep</i> requires the SSW gen tree to be installed. It also needs IDL version 6.4 or higher. And there must be Java version 1.5 or higher available.</p>
+		
+		<h2>Description</h2>
+		<p>The <i>vxo_prep</i> object is part of the <i>SolarSoftWare's gen</i> tree and intended to offer
+		users the capability to preprocess solar data remotely without having to install the instrument's software package or calibration data.
+		There is a convenience wrapper routine called <i>vso_prep</i>. The file name this object is <i>vxo_prep__define.pro</i>.<br/>
+		<i>vxo_prep</i> is using the IDL&#47;Java bridge and internally loading a Java object that does all the client - server communication
+		for this object. Basically, <i>vxo_prep</i> is a wrapper object for the underlying Java object <i>gov.nasa.gsfc.hessi.jidl.prep.client.bridge.VxoPrepClient</i>.</p>
+		
+		<table summary="This table contains a brief description of all parameters">
+			<tr>
+				<td><b>instrument</b></td>
+				<td>&nbsp;</td>
+				<td>This parameter specifies the image's instrument type. Currently, following values are allowed: <font style="font-style:italic">eit, rhessi</font>
+					For information about the instrument preprocessing parameters, please refer to the appropriate IDL object description in SSW gen tree.</td>
+			</tr>
+			<tr>
+				<td><b>infile</b></td>
+				<td>&nbsp;</td>
+				<td><i>Optional</i>. The file parameter can be omitted if the instrument's preprocessing
+					package implements an interval search, such as <i>rhessi</i>. Otherwise, it is a hyperlink to a web repository, a file
+					path to a local file or a byte array of data.</td>
+			</tr>
+			<tr>
+				<td><b>outfile</b></td>
+				<td>&nbsp;</td>
+				<td>Specifies the output file path and name. Currently, that parameter cannot be left out.</td>
+			</tr>
+			<tr>
+				<td><b>parameters</b></td>
+				<td>&nbsp;</td>
+				<td><i>Optional</i>. This parameter takes all additional instrument specific parameters as a comma separated list.</td>
+			</tr>
+		</table>
+		
+		<h2>Return value</h2>
+		<p>When creating an object instance the return value is TRUE if the underlying Java object could be created and FALSE if an error ocurred.</p>
+		<p><i>vxo_prep->preprocess</i> has no return value.</p>
+			
+		<h2>Errors</h2>
+		<p>The preprocessing routine might fail for various reasons. The routine <i>vso_debug</i> might give further information. Improved debugging functionality
+		will be introduced in a future release.</p>
+		
+		<h2>Examples</h2>
+		<p>All the following examples can be seen and executed sequentially by calling <i>vso_prep_test</i>.</p>
+		<p>The following example shows how to search for the <i>eit</i> image which is closest to <i>April, 21 01:15</i> and then how to send the
+		preprocessing request to the remote server with <i>vso_prep</i>. The returned image will be saved as <i>eit.fits</i>. For the use of <i>vso_files</i> see HYPERLINK</p>
+		Finally, we create an <i>eit</i> object, which allows us to plot the image.
+		<p class="code_red">IDL&gt; file = vso_files('21-apr-2002 01:15', inst='eit')<br/>
+		IDL&gt; vxo = obj_new('vxo_prep')<br/>
+		IDL&gt; vxo->preprocess, 'eit', file, out='eit.fits'<br/>
+		IDL&gt; eit = obj_new('eit')<br/>
+		IDL&gt; eit->read, 'eit.fits'<br/>
+		IDL&gt; eit->plot, &#47;color</p>
+		<p>The next command will return a <i>clean rhessi</i> image covering the interval <i>April, 21 01:15 - April, 21 01:16</i> and save it as <i>rhessi.fits</i>
+		Then we will create a <i>rhessi</i> object and plot the image.</p>
+		<p class="code_red">IDL&gt; vxo = obj_new('vxo_prep')<br/>
+		IDL&gt; vxo->preprocessfile = vso_files('21-apr-2002 01:15', inst='eit'), 'rhessi', out='rhessi.fits', im_time_interval=['21-apr-2002 01:15', '21-apr-2002 01:16'], image_alg='clean'<br/>
+		IDL&gt; rhessi = obj_new('rhessi')<br/>
+		IDL&gt; rhessi->read, 'rhessi.fits'<br/>
+		IDL&gt; rhessi->plot, /color</p>
+	</body>
+</html>

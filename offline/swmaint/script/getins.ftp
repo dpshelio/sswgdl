@@ -1,0 +1,8 @@
+open sohoftp.nascom.nasa.gov
+user ftp schriste@daedulus
+passive on
+epsv4 off
+binary
+cd /solarsoft/offline/swmaint/tar
+get ssw_install.tar.Z
+bye

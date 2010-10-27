@@ -1,0 +1,136 @@
+#!/bin/csh -f
+#
+######### DEFINE ssw_sw_sets Prior (inc site, gen, etc) ###############
+
+# S.L. Freeland  25-May-1996 - adapted for SSW from ys_install.ftpget 
+# S.L. Freeland  25-Mar-1997 - add SOURCE DISKFREE logic (solaris for now)
+# S.L. Freeland  22-Jun-1997 - bypass 'diskfree' if $ssw_diskfree is set
+# S.L. Freeland  11-Jan-1999 - bypass Mail if $ssw_nomail is set
+# S.L. Freeland  12-nov-2007 - freeland email nascom->lmsal
+#
+# ssw_install.ftpget
+# get required compressed tar files from master host
+# 
+########################################################################
+
+cd $SSW/offline/swmaint/tar			# local tar file recepticle
+
+setenv ssw_install $SSW/offline/swmaint/script
+# get directory file
+setenv ssw_ftpget1 ls.current
+source $ssw_install/ssw_install.ftpget1 		#directory file
+
+echo "Requested software sets: "$ssw_sw_sets
+set getfiles=($ssw_sw_sets)
+
+echo "Requested database sets: "$ssw_db_sets
+set getfiles=($ssw_sw_sets $ssw_db_sets)
+
+##############################################################################
+# SLF 5-Aug-1994 - Add check for sufficient disk space
+# Determine total compressed size of request
+##############################################################################
+set diagfile=$ssw_install/ssw_install.size
+/bin/rm -f $diagfile
+
+set total=0
+
+set okfiles=""
+foreach filen ($getfiles)
+   set chk=`echo $filen | grep .tar.Z`		# append ".tar.Z" if required
+   if ($chk == "") set filen=$filen.tar.Z
+   set file=`grep $filen ls.current`		# current isass0 name/size
+   if ($#file != 2) then
+      echo "File: $filen not available..."
+   else
+      @ total = $total + $file[2]
+      set okfiles=($okfiles $filen)
+   endif
+end
+set getfiles=($okfiles)
+
+if ($?ssw_diskfree) then
+   echo "ssw_diskfree is set - BYPASSING SIZE CHECKS"
+   set yssize=9999999
+else
+# get available space under ys
+   set osname=`uname`
+    switch ($osname)
+       case SunOS:
+         echo "using SOURCE diskfree call..."
+         set yssize = `source $ssw_install/diskfree $SSW`
+      breaksw
+      default:
+         echo "using default diskfree call..."
+         set yssize = `$ssw_install/diskfree $SSW`
+      breaksw
+   endsw
+endif
+
+@ tsize =   $total / 1024			    # blocks x 1024 bytes
+@ buffer =  $tsize / 10				    # 10% buffer (kludge)
+@ inssize = $tsize + $tsize + $buffer
+
+echo "----------------------------------------------------------------" >  $diagfile
+echo "Available disk space under SSW (1024 byte blocks): "$yssize	>> $diagfile
+echo "Total size of requested compressed tar files:     "$tsize  	>> $diagfile
+echo "Total size required by installation (w/buffer):   "$inssize	>> $diagfile
+echo "----------------------------------------------------------------" >> $diagfile
+
+# send size diagnostics via e-mail 
+set user=`whoami`                       # user name
+set host=`hostname`                     # hostname
+set memail="$user"'@'"$host"		# user self address
+set wmail=`which Mail`			# first guess
+if ($#wmail > 1) set wmail=`which mail`
+
+if (!($?ssw_size)) setenv ssw_size 0			# default
+if (!($?ssw_nomail)) setenv ssw_nomail 0                # default
+
+if ($yssize < $inssize) then
+   echo "WARNING: Requested upgrade will overflow $SSW"	>> $diagfile
+   echo "Aborting installation..."			>> $diagfile
+   cat $diagfile			# echo size diagnostics to terminal
+   set subj="<ssw_install> INSUFFICIENT DISK SPACE"
+   $wmail -s "$subj" freeland@lmsal.com $memail  < $diagfile
+   exit
+else
+   if ($yssize == 999999) then
+      echo "Could not determine available space (may overflow...)" >> $diagfile
+      echo "Continuing with ftp transfer ..." >> $diagfile
+   else
+      echo "Sufficient disk space exists, continuing with ftp transfer..." >> $diagfile
+   endif
+   cat $diagfile			# echo size diagnostics to terminal
+   set subj="<ssw_install> Disk Space OK"
+   if ("$ssw_nomail") then 
+      echo "Suppressing Mail on request"
+   else 
+      $wmail -s "$subj" freeland@lmsal.com $memail  < $diagfile
+   endif
+endif
+
+if ("$ssw_size" == 1) exit		########## unstructured exit
+############################################################################
+
+# loop through files
+foreach filen ($getfiles)
+   set chk=`echo $filen | grep .tar.Z`
+   if ($chk == "") set filen=$filen.tar.Z
+   set file=`grep $filen ls.current`
+   set cursize=0					# assume no file
+   if (-e $filen) then 
+      set cursize=`/bin/ls -l $filen`			# chk existing size
+      set nfields=$#cursize   
+       @ size_pos = $nfields - 4
+      set cursize=$cursize[$size_pos]
+   endif
+   if ("$cursize" == $file[2]) then
+      echo "existing file $filen is proper size (delete to force recopy)"
+   else
+      setenv  ssw_ftpget1 "$file"
+      source $ssw_install/ssw_install.ftpget1 		# get 1 file
+   endif
+end
+
+exit

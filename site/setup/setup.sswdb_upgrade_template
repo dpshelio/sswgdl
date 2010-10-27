@@ -1,0 +1,52 @@
+#######################################################
+# $SSW/site/setup/setup.sswdb_upgrade
+#
+# 29-March-2000 S.L.Freeland - Template supplied
+#
+# See: http://www.lmsal.com/solarsoft/sswdb_install.html
+# 
+#######################################################
+# Used by 'go_update_ssw' / 'sswdb_upgrade.pro to determine 
+# which SSWDB sets to upgrade locally.
+#
+# WARNING - some SSWDB sets are VERY large so confirm that you have
+#           enough space at the above URL.
+#
+# Uncomment lines for desired local data base
+#######################################################
+# SSWDB Site Configuration File - Generated via WWW at Wed Mar 29 12:34:27 2000
+#tdb/tdc_darks
+#tdb/fdss
+#tdb/tcl
+#tdb/tcs
+#tdb/tce
+#BATSE_DATA
+#soho/cds
+#soho/sumer
+#DIR_GEN_ATT
+#DIR_GEN_FEM
+#DIR_GEN_EVN
+#DIR_GEN_OBD
+#DIR_GEN_OSF
+#DIR_GEN_OSP
+#DIR_GEN_OWH
+#DIR_SXT_SXL
+#DIR_SXT_SDC
+#DIR_SXT_SFC
+#DIR_SXT_SFM
+#DIR_GEN_NAR
+#DIR_GEN_GEV
+#DIR_GEN_G61
+#DIR_GEN_G71
+#DIR_GEN_G81
+#DIR_GEN_G91
+#DIR_GEN_G01
+#DIR_GEN_G65
+#DIR_GEN_G75
+#DIR_GEN_G85
+#DIR_GEN_G95
+#DIR_GEN_G05
+#DIR_GEN_GBL
+#DIR_GEN_XAD
+#DIR_GEN_XBD
+#PERM_DATA

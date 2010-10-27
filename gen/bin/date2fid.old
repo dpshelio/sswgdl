@@ -1,0 +1,59 @@
+#!/bin/csh
+# 1992-01-10 by S.WATARI
+#
+
+set date0=`date`
+set mm=$date0[2]
+set dd=$date0[3]
+set yy=$date0[6]
+
+	switch ($mm)
+		case Jan:
+			set mmn = '01'
+		breaksw
+		case Feb:
+			set mmn = '02'
+		breaksw
+		case Mar:
+			set mmn = '03'
+		breaksw
+		case Apr:
+			set mmn = '04'
+		breaksw
+		case May:
+			set mmn = '05'
+                breaksw
+		case Jun:
+			set mmn = '06'
+		breaksw
+		case Jul:
+			set mmn = '07'
+		breaksw
+		case Aug:
+			set mmn = '08'
+		breaksw
+		case Sep:
+			set mmn = '09'
+		breaksw
+		case Oct:
+			set mmn = '10'
+		breaksw
+		case Nov:
+			set mmn = '11'
+		breaksw
+		case Dec:
+			set mmn = '12'
+		breaksw
+	endsw
+
+set hhmmss = `echo $date0[4] | sed s/://g`
+
+@ yy = ${yy} - 1900
+if ($dd < '10') then
+	set fname=$yy$mmn'0'$dd'.'$hhmmss
+else
+	set fname=$yy$mmn$dd'.'$hhmmss
+endif
+
+echo $fname
+

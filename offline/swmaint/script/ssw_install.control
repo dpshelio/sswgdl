@@ -1,0 +1,212 @@
+#!/bin/csh -f
+#
+# ssw_install.control
+#                               S.L.Freeland
+#; Name:    ssw_install.control
+#;
+#; Purpose: control/perform install or upgrade SSW SW on UNIX systems
+#;
+#;History:      
+#; 26-May-1996 - S.L.Freeland - adapted ys_install for SSW use
+#; 29-May-1996 - S.L.Freeland - removed testing hooks
+#; 20-Jun-1996 - S.L.Freeland - add some more environ info to site_config file
+#; 20-aug-1996 - S.L.Freeland - assure 'printenv' is available
+#; 12-mar-1997 - S.L.Freeland - add "packages" support
+#;  4-apr-1997 - S.L.Freeland - add 'bin' definition
+#; 21-aug-1997 - S.L.Freeland - add trace/cgro
+#;  7-Aug-2002 - S.L.Freeland - add goes
+#; 21-Nov-2002 - S.L.Freeland - add solarb
+#; 13-feb-2004 - S.L.Freeland - add vobs
+#; 24-may-2004 - S.L.Freeland - add stereo
+#; 20-Jul-2005 - S.L.Freeland - gunzip instead of uncompress
+#; 10-oct-2006 - S.L.Freeland - add hinode
+#
+if (! $?SSW) then
+   echo SSW not defined - run use ssw_install front end
+   exit
+endif
+
+if (!(-e $SSW/site)) setenv ssw_dosite 1      # force site if no site branch already
+
+# permit site configuration file: ssw_install.config
+if (-e $SSW/site/setup/ssw_install.config) source $SSW/site/setup/ssw_install.config
+
+setenv ssw_swmaint $SSW/offline/swmaint		# top level SW maintenence
+setenv ssw_install $ssw_swmaint/script		# install working directory
+setenv ssw_tar	   $ssw_swmaint/tar		# tar file path
+
+if (!(-e $ssw_tar)) mkdir -p $ssw_tar
+if (!(-e $ssw_install)) mkdir -p $ssw_install	# create working area if required
+
+# set incremental update success flag to false
+setenv ssw_incremok 0	
+
+############### verify printenv is available #############################
+set temp_path=($path)
+if (-e /usr/ucb/printenv) then
+   set path=($path /usr/ucb)
+endif
+##########################################################################
+
+###############################################################################
+# ------------ incremental upgrade code removed (see ys_install.controll)
+# (SSW via Perl/mirror)
+# ------------------------------------------------------------------------
+###############################################################################
+# define defaults
+source $ssw_install/ssw_install.setenv
+###############################################################################
+
+###############################################################################
+# get compressed tar files on request (permit tape versions)
+if (!($ssw_noftp)) then
+    setenv ssw_ftpok 1				# flag; verify ftp ok
+    source $ssw_install/ssw_install.ftpget	# ftp required tar files
+    if ($ssw_ftpok) then
+       echo "All requrested files transfered via ftp"
+    else
+       echo One or more ftp transfers failed...,  exiting
+       echo Restarting ys_install will resume where this left off
+       echo "(will not re-ftp succesful files)"
+       exit
+    endif
+endif
+###############################################################################
+
+
+###############################################################################
+# ------------- SLF 26-may-1996 - remove data base installation --------
+# (for SSW , this is haneled via Perl/mirror or via IDL job
+# ----------------------------------------------------------
+###############################################################################
+
+###############################################################################
+# ---------------- ---- help function --------------------
+if ($ssw_dohelp == "1") then                        
+   if (-e $ssw_install/ys_install) then
+      head -50 $ssw_install/ssw_install | grep "#;" | more
+      exit
+   else
+      echo "Can not find script: "$ssw_install/ssw_install
+   endif
+   exit					### unstructured exit 
+endif
+###############################################################################
+cd $ssw_install					# move to working area
+#
+# Generate a script file based on current contents of ...swmaint/tar
+set inst = $ssw_install/sswtar_install.src	# custom installation script
+/bin/rm -f $inst
+set date=`date`
+if (!($?user)) set user="???"
+
+# Now build a script to uncompress, untar , and install sets
+set header="#\!/bin/csh -f"
+echo $header > $inst
+echo "# Solar-SoftWare (SSW) installation Script Generated: "$date" by User: " $user >> $inst
+echo  # >> $inst
+# protect against local environment problems
+
+set comptars=`/bin/ls $ssw_tar/*tar*`
+### write local environment to installation install script  header #########
+#########################################################################
+#########################################################################
+
+echo "setenv SSW $SSW"				>> $inst
+echo 'setenv ssw_sw_sets "'"$ssw_sw_sets"'"' 	>> $inst
+echo 'setenv ssw_db_sets "'"$ssw_db_sets"'"' 	>> $inst
+
+echo "setenv ssw $SSW" 				>> $inst
+echo "setenv soho $SSW/soho" 	   		>> $inst
+echo "setenv yohkoh $SSW/yohkoh"    		>> $inst
+echo "setenv smm $SSW/smm" 			>> $inst
+echo "setenv spartan $SSW/spartan"		>> $inst
+echo "setenv packages $SSW/packages"            >> $inst
+echo "setenv trace $SSW/trace"		        >> $inst
+echo "setenv cgro $SSW/cgro"		        >> $inst
+echo "setenv radio $SSW/radio"                  >> $inst
+echo "setenv optical $SSW/optical"              >> $inst
+echo "setenv hessi $SSW/hessi"                  >> $inst
+echo "setenv sxi $SSW/sxi"                      >> $inst
+echo "setenv goes $SSW/goes"                    >> $inst
+echo "setenv solarb $SSW/solarb"                >> $inst
+echo "setenv hinode $SSW/hinode"		>> $inst
+echo "setenv vobs $SSW/vobs"                    >> $inst
+echo "setenv stereo $SSW/stereo"                >> $inst
+
+# ancillary data bases...
+echo "setenv ydb $ydb"				>> $inst
+echo "setenv sohodb $sohodb"			>> $inst
+echo "setenv spartandb $spartandb"		>> $inst
+echo "setenv tracedb $tracedb"			>> $inst
+echo "setenv bin $SSW/bin"                      >> $inst
+#########################################################################
+#########################################################################
+# echo environment to site installation configuration file
+set site_config=$ssw_install/ssw_site.config	# (moves to site after install)
+grep setenv $inst > $site_config
+#########################################################################
+echo "Building tar file installation script..."
+if ($#comptars == 0) then
+   echo "No tar files found in: "$ssw_tar" , exiting"
+   exit					### unstructured exit 
+endif
+##########################################################################
+#            --------- tar file loop -----------------------
+# assumption - files in the form ssw_mmm_iii.tar.Z
+#              where SSW=SolarSoftWare, mmm=mission, iii=instrument
+#              Example: ssw_soho_eit.tar.Z = compressed tar w EIT SW tree
+##########################################################################
+foreach tarfile ($comptars)
+   set tarname=$tarfile:t
+   set mission=`echo $tarname | cut -f2 -d"_"`
+   set instrument=`echo $tarname | cut -f3 -d"_" | cut -f1 -d"."`
+   if ("$instrument" != "") then
+#     permit compressed or uncompressed tar files
+      if ($tarname == "ssw_"$mission"_"$instrument".tar.Z") then
+         echo 'echo "Uncompressing file: "'$tarname		     >> $inst
+         echo "gunzip -f $tarfile" 				     >> $inst
+      endif
+      echo 'mkdir -p $'"$mission"				     >> $inst
+      echo 'cd $'"$mission" 					     >> $inst
+      echo "/bin/rm -rf "$instrument 				     >> $inst
+      echo "mkdir "$instrument  				     >> $inst
+      echo "chmod 775 "$instrument 				     >> $inst
+      set tarfil = "$tarfile:h""/ssw_"$mission"_"$instrument".tar"
+      echo 'echo "Installing SW instrument: "'$instrument 	     >> $inst
+      echo "tar -xf "$tarfil" "$instrument 			     >> $inst
+#     remove tar files
+      if ($ssw_remove == "1") then
+         echo "echo removing $tarfil" 	     			     >> $inst
+         echo "/bin/rm -f $tarfil " 				     >> $inst
+      endif
+   endif
+end
+# -------------- end of tar file loop -------------------
+
+echo unsetenv ssw_full 0   					     >> $inst
+echo setenv   ssw_fullok 1 					     >> $inst
+#echo source $ssw_install/ssw_install.increm >> $inst
+
+# copy ssw_site config file to $SSW/site/setup
+echo "cp $site_config $SSW/site/setup/"				     >> $inst
+
+if ($ssw_doexe == "1") then
+  echo "Executing installation script: "
+  echo "     "$inst
+  source $inst
+  echo "Installation complete"
+  if (-e $SSW/site/bin/ssw_install.cleanup) then
+      echo "Executing local cleanup script: $SSW/site/bin/ssw_install.cleanup"
+      source $SSW/site/bin/ssw_install.cleanup
+  endif
+else
+  echo "Installation inhibited"
+  echo "Installation Script is: "
+  echo "     "$inst
+  echo "You must source that script to complete installation..."
+endif
+
+set path=($temp_path)
+
+exit

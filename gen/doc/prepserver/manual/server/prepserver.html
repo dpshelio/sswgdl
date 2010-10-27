@@ -1,0 +1,433 @@
+<html>
+	
+	<head>
+		
+		<title>PrepServer Documentation</title>
+		
+		<link rel="stylesheet" type="text/css" href="../../shared/style.css" />
+		
+		<script type="text/javascript" src="../../shared/utility.js"></script>
+		<script type="text/javascript" src="../../shared/popup.js"></script>
+		
+	</head>
+	
+	<body>
+		
+		<!-- help entries -->
+		
+		<div class="popup" id="help_overview_example_0">Get help here!</div>
+		
+		<div class="popup" id="help_overview_example_1">Get the EIT image which is closest to the given date. Returns an HTTP link.</div>
+		
+		<div class="popup" id="help_overview_example_2">Call the preprocessing routine. <i>&#47;cosmic</i> is an EIT specific parameter.</div>
+		
+		<div class="popup" id="help_overview_example_3">PrepParameterSet is a Java object that bundles all parameters.<br/>
+		The parameter <i>instrument</i> is in our example <i>eit</i></div>
+		
+		<div class="popup" id="help_overview_example_4">Pseudo code block. IF-THEN-ELSE sequence to identify the input type: HTTP file, local file, byte stream or empty file (i.e. for RHESSI)</div>
+		
+		<div class="popup" id="help_overview_example_5">Pseudo code block. FOR-LOOP that iterates over all parameters passed in by <i>extra</i>.</div>
+		
+		<div class="popup" id="help_overview_example_6">This adds all parameters to the above created PrepParameterSet.<br/><i>pName</i> is
+		the parameter's name as a string i.e. <i>cosmic</i>, and <i>Value</i> is its value, i.e. 1. Please note: The type
+		of <i>pValue</i> is persisted. Thus, an integer on the client side will arrive as an integer on the 
+		server side!</div>
+		
+		<div class="popup" id="help_overview_example_7">This is the final command that sets off the preprocessing. It
+		causes the Java object to contact the server with the request (see next).</div>
+		
+		<div class="popup" id="help_overview_example_8"><i>server</i> is an automatically generated object that
+		takes care of the client - server communication. It mirrors all methods the &quot;real&quot; server offers. Whenever
+		such a method is executed, the parameters are forwarded to the server and the method is executed there.</div>
+		
+		<div class="popup" id="help_overview_example_9">-CORRECTME- &quot;parameters.getInstrument()&quot; returns the instrument type the client selected (i.e.
+		rhessi, eit). The call to <i>PrepServerService.createPrepService(...)</i> will then check if there is a PrepServer instance for, let's
+		say eit, has already been created or not. There will be an instance waiting, if another client requested an EIT image before. If there is
+		no instance, a new instance (singleton) will be created. -CORRECTME-</div>
+
+		<div class="popup" id="help_overview_example_10">This and the next line create a Java and an IDL version of the <i>Preprocessor</i> object.
+		As mentioned before, the <i>Preprocessor</i> object is the bridge between Java and IDL and performs the actual pre-processing in the
+		SSW enabled IDL environment.</div>
+		
+		<div class="popup" id="help_overview_example_11">This command registers this <i>GenPrepService</i> with the <i>Preprocessor</i>'s output
+		event handler. It basically means, that whatever <i>prep</i>, more precisely its IDL counterpart, writes out as a message will be
+		sent to this <i>GenPrepService</i> instance and can be handled separately.</div>
+		
+		<div class="popup" id="help_overview_example_12">Pseudo code block. IF-THEN-ELSE sequence to identify the input type: HTTP file, byte stream or empty file (i.e. for RHESSI)</div>
+		
+		<div class="popup" id="help_overview_example_13">Pseudo code block. This FOR-LOOP converts the Java types to correct IDL types. This is necessary since Java
+		uses its new type classes which IDL cannot handle. New type example: Byte class instead of primitive byte.<br/> It also adds the converted parameters to the
+		IDL instance of the <i>Preprocessor</i>.</div>
+		
+		<div class="popup" id="help_overview_example_14">This will add the current parameter to the IDL instance of the <i>Preprocessor</i>. See next section for more details.</div>
+		
+		<div class="popup" id="help_overview_example_15">Here we call the final pre-processing routine that will do the actual pre-processing in IDL.</div>
+		
+		<div class="popup" id="help_overview_example_16">This says that we return the pre-processed data in form of a byte array.</div>
+		
+		<div class="popup" id="help_overview_example_17">This IF-THEN-ELSE construct tests if the internal parameter variable has been set or not. If so reuse it otherwise initialize
+		it.<br/>
+		Please notice: <i>self.arguments</i> is a pointer to a structure. This was necessary, since IDL cannot grow a structure and &quot;write it back&quot; to the same variable.
+		Therefore, a pointer to said structure is used because a pointer can be &quot;updated&quot; with the resized structure.</div>
+		
+		<div class="popup" id="help_overview_example_18"><i>CREATE_STRUCT</i> creates a new struct based on the old struct (<i>*self.arguments</i> returns the structure &quot;at the other end
+		of the pointer&quot;). It also adds the new parameter.</div>
+		
+		<div class="popup" id="help_overview_example_19">To prevent memory leaks, the old pointer needs to be destroyed.</div>
+		
+		<div class="popup" id="help_overview_example_20">This creates a new pointer pointing to the structure <i>newStr</i>.</div>
+		
+		<div class="popup" id="help_overview_example_21"><i>CREATE_STRUCT</i> creates a new struct containing the new parameter.</div>
+		
+		<div class="popup" id="help_overview_example_22">This will create a prep object of type <i>self.instrument</i>, such as <i>eit</i> or <i>rhessi</i>.</div>
+		
+		<div class="popup" id="help_overview_example_23">If no arguments were added to this pre-processing request, <i>self.arguments</i> will not be a valid
+		pointer and the following IF-THEN-ELSE block must be skipped.</div>
+		
+		<div class="popup" id="help_overview_example_24">In this FOR-LOOP each parameter name in <i>*self.arguments</i> is paired up with the appropriate value.<br/>
+		Please note: By adding a reference to <i>*self.arguments.(INDEX)</i> instead of the value itself, it is ensured, that the below <i>EXECUTE</i> call
+		will use the correct types for all the parameters.</div>
+		
+		<div class="popup" id="help_overview_example_25"><i>EXECUTE</i> will execute a string like this: <i class="code_red">CALL_METHOD, read, p, input_file.fits, example_arg=(*self.arguments).(1)</i>.</div>
+		
+		<div class="popup" id="help_overview_example_26">This <i>addParameter</i> is called when an integer value's parameter is added.</div>
+		
+		<div class="popup" id="help_overview_example_27">This <i>addParameter</i> is called when an array of integers is added as a parameter value.</div>
+		
+		<div class="popup" id="help_overview_example_28">This is the generic routine that is internally called by all other <i>addParameter</i> methods.</div>
+		
+		<div class="popup" id="help_overview_example_29">This IF-THEN-ELSE block checks if the specified <i>value</i> (in the generic <i>Object</i> field) is a &quot;hidden&quot; array. If not then that
+		value is added as a single value to the array in the <i>PrepParameter</i> instance. If it is, then the values are added sequentially to the
+		array in the current <i>PrepParameter</i> instance.</div>
+		
+		<div class="popup" id="help_overview_example_30">This adds the current <i>PrepParameter</i> instance to the <i>PrepParameterSet</i>.</div>
+		
+		<!-- end help entries -->
+		
+		<h1>PrepServer Documentation</h1>
+		<h2>L. I. Etesi (CUA,FHNW&#47;GSFC), Updated: 2009-05-05</h2>
+		<h2>Table of Contents</h2>
+		
+		<ol>
+			<li><a href="#Preface">Preface</a></li>
+			<li>
+				<a href="#Overview">Overview</a>
+				<ol>
+					<li><a href="#Overview_Example">Example preprocessing request</a></li>
+				</ol>
+			<li>
+				<a href="#Server_Setup">Server Setup</a>
+				<ol>
+					<li><a href="#Server_Setup_Requirements">Requirements</a></li>
+					<li><a href="#Server_Setup_Step-by-Step_Installation">Step-by-Step Installation</a></li>
+					<li><a href="#Server_Setup_Troubleshooting">Troubleshooting</a></li>
+				</ol>
+			</li>
+			<li>
+				<a href="#Client_Setup">Client Setup</a>
+				<ol>
+					<li><a href="#Client_Setup_Requirements">Requirements</a></li>
+					<li><a href="#Client_setup_Troubleshooting">Troubleshooting</a></li>
+				</ol>
+			</li>
+		</ol>
+		
+		<h2><a name="Preface">Preface</a></h2>
+		<p>The intention of this document is to describe the PrepServer, and to explain how to set it up and how to troubleshoot it.</p>
+		
+		<h2><a name="Overview">Overview</a></h2>
+		<p>The PrepServer is a Java web application that runs in an Apache Tomcat and has an interface to an 
+		<a href="http://hesperia.gsfc.nasa.gov/rhessidatacenter/software/installation.html" target="_blank">SolarSoftware</a> (SSW)
+		enabled IDL instance. Thus, the PrepServer application bridges between the client web requests, that are managed by
+		Tomcat, and	the server side IDL instance, which performs the actual preprocessing (see <a href="#Figure_1">Figure 1</a>).</p>
+		
+		<p><a name="Figure_1"><img src="Overview.Schema.PrepServer.png" alt="An overview of the PrepServer system setup" width="640" height="486" align="bottom"></a>
+		<b>Figure 1:</b> An overview of the PrepServer system setup</p>
+		
+		<h3><a name="Overview_Example"></a>Example preprocessing request</h3>
+		<p>The below sequence provides a step-by-step example prep-request. The client system is an IDL PrepServer client.</p>
+		
+		<p><b>Please note:</b> For futher help, move your mouse over <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_0', event);" onmouseout="!showPopup('close', event);"/>.
+		If you do so and no help window appears, you might have to activate Java Scripting for this session. Check if there is a message below your browser's
+		address bar indicating it.</p>
+		
+		<p><b>Please note:</b> <i class="code_red">...</i> indicates that code was left out for simplification.</p>
+
+		<ol>
+			<li>
+				<h4>Client initiates preprocessing request</h4>
+				<p>The following happens on the client machine, in an SSW enabled IDL session.</p>
+				
+				<p class="code_red">IDL&gt; file = vso_files('21-apr-2002 01:15', inst='eit') <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_1', event);" onmouseout="!showPopup('close', event);"/><br/>
+				IDL&gt; vso_prep, 'eit', file, out='eit.fits', &#47;cosmic <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_2', event);" onmouseout="!showPopup('close', event);"/></p>
+				
+				<p><i>vso_prep</i> internally creates a <i>vxo_prep</i> objec and calls that object's preprocessing routine 
+				with the same arguments from above.</p>
+				
+				<p class="code_red">pro vso_prep,inst,file,outfile=outfile,_extra=extra,status=status</br>
+				&nbsp;...<br/>
+				&nbsp;vxoprep = obj_new('vxo_prep')<br/>
+				&nbsp;vxoprep-&gt;preprocess, inst, file, outfile=ofile, _extra=extra<br/>
+				&nbsp;...<br/>
+				end</p>
+				
+				<p><i>vxo_prep</i> is a wrapper object that encapsulates a Java object which does the actual communication 
+				between the client and the server. Therefore, when <i>vxoprep</i> was created, it also created a Java
+				object of the type <i>VxoPrepClient</i>. Because the Java object will eventually send the 
+				request to the server, the preprocessing arguments must be converted, such that Java can handle them.
+				This happens in <i>vxo_prep</i> when <i>vxoprep-&gt;preprocess</i> is called.</p>
+				
+				<p class="code_red">pro vxo_prep::preprocess, instrument, infile, outfile=outfile, _extra=parameters<br/>
+				&nbsp;...</br>
+				&nbsp;prepParamSet = self.vxoPrep-&gt;createPrepParameterSet(instrument) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_3', event);" onmouseout="!showPopup('close', event);"/><br/>
+				<br/>
+				&nbsp;if block begin <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_4', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;file is empty: do nothing<br/>
+				&nbsp;&nbsp;file is url: prepParamSet->setUrl, infile<br/>
+				&nbsp;&nbsp;file is local: prepParamSet->setRawData, self.vxoPrep->readByteArrayFromFile(infile)<br/>
+				&nbsp;&nbsp;file is byte array: prepParamSet->setRawData, infile<br/>
+				&nbsp;if block end<br/>
+				<br/>
+				&nbsp;for block begin <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_5', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;for all parameters: self.vxoPrep-&gt;addParameter, prepParamSet, pName, pValue <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_6', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;for block end<br/>
+				<br/>
+				&nbsp;self.vxoPrep-&gt;preprocess(prepParamSet, ofile) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_7', event);" onmouseout="!showPopup('close', event);"/></br>
+				&nbsp;...</br>
+				end</p>
+				
+				<p>Before continuing it is advisable to have a closer look at what happens when <i>VxoPrepClient->addParameter(...)</i> is called. All parameters
+				are stored as arrays. This is because IDL handles a single integer the same as an array of integers with only one entry. In Java on the other
+				hand it makes a difference. Since there are parameters that require arrays and others that don't, it was decided to always use
+				arrays. In order to enforce the usage of arrays and persist the orignial value's data type, helper methods had to be added to <i>VxoPrepClient</i>.
+				The following block shows how integers and arrays of integers are handled. All other data types are dealt with using the same technique.<br/>
+				Please note: This technique works because Java knows the type of whatever is received from IDL and will therefore select the <i>addParameter</i>
+				which is the most suitable.</p>
+				
+				<p class="code_red">public void addParameter(PrepParameterSet paramSet, String paramName, int value) { <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_26', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;addParameterGen(paramSet, paramName, value);<br/>
+				}<br/>
+				&nbsp;
+				<br/>
+				public void addParameter(PrepParameterSet paramSet, String paramName, int[] value) { <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_27', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;addParameterGen(paramSet, paramName, value);<br/>
+				}<br/>
+				&nbsp;<br/>
+				private void addParameterGen(PrepParameterSet paramSet, String paramName, Object value) { <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_28', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;<br/>
+				&nbsp;PrepParameter pp = new PrepParameter();<br/>
+				&nbsp;<br/>
+				&nbsp;if(!value.getClass().isArray()) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_29', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;pp.getValue().add(value);<br/>
+				&nbsp;else<br/>
+				&nbsp;&nbsp;for(int i = 0; i < Array.getLength(value); i++)<br/>
+				&nbsp;&nbsp;&nbsp;pp.getValue().add(Array.get(value, i));<br/>
+				&nbsp;<br/>
+				&nbsp;pp.setName(paramName);<br/>
+				&nbsp;<br/>
+				&nbsp;paramSet.getParameters().add(pp); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_30', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;<br/>
+				}</p>
+				
+				<p>In the Java object <i>VxoPrepClient</i> there is only a little code necessary to handle the communication
+				between the client and the server. That is because the server provides a WSDL (Web Service Description Language) file (currently
+				that can be found at <a href="http://wilco.gsfc.nasa.gov:8080/VxoPrepServer/vxoprep?wsdl" target="_blank">Wilco</a>.
+				That file contains a detailed description of the PrepServer's services and communication objects. Modern lanuages
+				like Java or C++ can read and interpret that definition file and automatically generate object definition files
+				from it. These automatically generated objects have two main purposes: a) They handle the communication with the web
+				service, and b) they serve as blueprints for objects that can be used on the client side. As a matter of fact, the object
+				<i>PrepParameterSet</i> is just such an object.</p>
+				
+				<p class="code_red">public PrepResponse preprocess(PrepParameterSet parameters, String file) {<br/>
+				&nbsp;...<br/>
+				&nbsp;byte[] result = server.preprocess(parameters); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_8', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;...<br/>
+				}</p>
+				
+				<p>The pre-process call will establish a connection to the web service, i.e. http:&#47;&#47;wilco.gsfc.nasa.gov:8080&#47;VxoPrepServer&#47;vxoprep.</p>
+			</li>
+			<li>
+				<h4>Server receives preprocessing request (Tomcat &#47; Java web application)</h4>
+				<p>After the client has establised a connection to the server and called the pre-processing routine, it passes on control to
+				the server and waits for it to return. The server then initiates its internal preprocessing routine.</p>
+				
+				<p class="code_red">@WebMethod public PrepResponse preprocess(PrepParameterSet parameters) {<br/>
+				&nbsp;...<br/>
+				&nbsp;PrepService ps = PrepServerService.createPrepService(parameters.getInstrument()); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_9', event);" onmouseout="!showPopup('close', event);"/></br>
+				&nbsp;...<br/>
+				}</p>
+				
+				<p><i>GenPrepService</i> is the core handler for the pre-processing on the Java side. Its <i>prep</i> routine takes care of the parameter conversion (in order for them to be passed on to IDL) and their transfer from Java
+				to IDL and back. Special attention must be given to the Java class <i>Preprocessor</i>. This is an auto-generated Java class which bridges between IDL and Java. The corresponding IDL object on which this Java class is based on
+				is called <i>Preprocessor__define</i>.</p>
+				
+				<p class="code_red"> public byte[] prep(PrepParameterSet parameters) {<br/>
+				&nbsp;...<br/>
+				&nbsp;Preprocessor prep = new Preprocessor(); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_10', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;prep.createObject();<br/>
+				&nbsp;prep.addIDLOutputListener(this); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_11', event);" onmouseout="!showPopup('close', event);"/></br>
+				&nbsp;...<br/>
+				&nbsp;String instrument = parameters.getInstrument();<br/>
+				&nbsp;prep.setInstrument(new JIDLString(instrument));<br/>
+				&nbsp;<br/>
+				&nbsp;if block begin <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_12', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;if input file is url: get file and save it to disk<br/>
+				&nbsp;&nbsp;if input file is raw data: write raw data to disk<br/>
+				&nbsp;&nbsp;if input file is empty: leave it empty<br/>
+				&nbsp;if block end<br/>
+				&nbsp;<br/>
+				&nbsp;for block begin <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_13', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;for all parameters: convert Java data type to the corresponding IDL data type<br/>
+				&nbsp;&nbsp;for all parameters: prep.addArgument(new JIDLString(p.getName()), new JIDLArray(convertedArray)); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_14', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;for block end<br/>
+				&nbsp;...<br/>
+				&nbsp;prep.setInfile(new JIDLString(infile.getPath()));<br/>						
+				&nbsp;prep.setOutfile(new JIDLString(outfile.getPath()));<br/>
+				&nbsp;prep.preprocess(); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_15', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;...<br/>
+				&nbsp;return ret; <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_16', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;<br/>
+				}</p>
+			</li>
+			<li>
+				<h4>Pre-processing request is sent to the server's SSW IDL enabled session</h4>
+				<p>Before the actual pre-processing routine can be analyzed it is advisable to have a look at <i>Preprocessor::addArgument</i>. Since it was
+				a goal to persist all data types all along the way from the client to the server, <i>addArgument</i> and <i>preprocess</i> had to provide
+				ways to ensure that all data types were correctly converted from their Java versions to their IDL counterparts and vice-versa. Additionally,
+				<i>preprocess</i> had to be written such, that the types were preserved even when calling the SSW IDL pre-processing routines. This is
+				achieved by adding all pre-processing parameters to an IDL structure that is growing while new parameters are added.</p>
+				
+				<p class="code_red">PRO preprocessor::addArgument, argName, argValue<br/>
+				&nbsp;<br/>
+				&nbsp;IF (PTR_VALID(self.arguments)) THEN BEGIN <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_17', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;newStr = CREATE_STRUCT(argName, argValue, *self.arguments) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_18', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;PTR_FREE, self.arguments <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_19', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;self.arguments = PTR_NEW(newStr); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_20', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;ENDIF ELSE BEGIN<br/>
+				&nbsp;&nbsp;newStr = CREATE_STRUCT(argName, argValue) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_21', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;self.arguments = PTR_NEW(newStr); <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_20', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;ENDELSE<br/>
+				&nbsp;<br/>
+				END</p>
+				
+				<p>The block below shows what <i>Preprocessor::preprocess</i> does. Generally, it tries to create an SSW object for the specified instrument type, such as <i>eit</i> or <i>rhessi</i>. Then it reads all parameters
+				from the internal structure <i>*self.arguments</i> and compiles a string that can be interpreted by the instrument's <i>read</i> routine. If the pre-processing
+				is successful, the pre-processed image is written to a file that will be read by <i>GenPrepServer</i> (see previous section).</p>
+				
+				<p class="code_red">
+				PRO preprocessor::preprocess<br/>
+				&nbsp;<br/>
+  				&nbsp;p = OBJ_NEW(self.instrument) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_22', event);" onmouseout="!showPopup('close', event);"/><br/>
+  				&nbsp;...<br/>
+  				&nbsp;IF PTR_VALID(self.arguments) THEN BEGIN <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_23', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;argStr = *self.arguments<br/>
+				&nbsp;&nbsp;argNames = TAG_NAMES(argStr);<br/>
+				&nbsp;<br/>
+    			&nbsp;&nbsp;FOR i = 0, N_TAGS(argStr) - 1 DO BEGIN<br/>
+				&nbsp;&nbsp;&nbsp;paramString = paramString + ', ' + argNames(i) + '=(*self.arguments).(' + STRCOMPRESS(STRING(i), /REMOVE_ALL) + ')' <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_24', event);" onmouseout="!showPopup('close', event);"/><br/>
+				&nbsp;&nbsp;ENDFOR<br/>
+  				&nbsp;ENDIF<br/>
+  				&nbsp;<br/>
+				&nbsp;res = EXECUTE('CALL_METHOD, "read", p, "' + self.infile + '"' + paramString) <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_overview_example_25', event);" onmouseout="!showPopup('close', event);"/><br/>
+  				&nbsp;p->write, self.outfile<br/>
+				&nbsp;OBJ_DESTROY, p<br/>
+				&nbsp;<br/>
+				END</p>
+				
+				<p>After the end of the above routine is reached, the control is given back to <i>GenPrepService</i> and the data is passed on back to each previously called routine and
+				finally streamed to the client.</p>
+			</li>
+		</ol>
+		<h2><a name="Server_Setup">Server Setup</a></h2>
+		<h3><a name="Server_Setup_Requirements">Requirements</a></h3>
+		<p>In order to run the PrepServer application, the following must be available:</p>
+		<ul>
+			<li>Under Linux&#47;Unix&#47;Mac: Make sure there is BASH and CSH available and that all scripts and the server are run within BASH.</li>
+			<li>Tomcat 6.0 binaries (appropriate version for host operating system</li>
+			<li>Java 6</li>
+			<li>Tomcat/SSW setup scripts (only necessary for Linux/Unix/Mac)</li>
+			<li>IDL 7.0</li>
+			<li>Up-to-date SSW library (with all instrument packages and their calibration files)
+			<li>Up-to-date PrepServer binaries</li>
+		</ul>
+		<h3><a name="Server_Setup_Step-by-Step_Installation">Step-by-Step Installation</a></h3>
+		<p>Please note: This Step-by-Step installation is based on Linux&#47;Unix&#47;Mac. A Windows installation works basically the same with some differences.
+		Might add them in a later release.</p>
+		<ol>
+			<li>
+				<h4>Preparations</h4>
+				<ul>
+					<li><p>First, make sure Java 6 is available. If not, get it from <a href="http://java.sun.com/javase/downloads" target="_blank">here</a> and
+					install it. After the installation, make sure that the system variables <i>JAVA_HOME</i> is set and points to where Java was copied to.</p></li>
+					<li><p>Next check if IDL 7 is available. If not, install it from the CD.</p></li>
+					<li><p>Then see if SSW and all necessary instrument packages are on the system. If not, help installing and setting it up can be found <a href="http://hesperia.gsfc.nasa.gov/rhessidatacenter/software/installation.html"
+					target="_blank">here</a>.</p></li>
+				</ul>
+			</li>
+			<li>
+				<h4>Tomcat Basic Setup</h4>
+				<ul>
+					<li><p>Basically, there is a standard installation of Tomcat necessary. The binaries can be found <a href="http://tomcat.apache.org/download-60.cgi" target="_blank">here</a> and 
+					help setting it up <a href="http://tomcat.apache.org/tomcat-6.0-doc/index.html" target="_blank">here</a>. Make sure that 
+					<i>CATALINA_HOME</i> is set ant points to the Tomcat installation directory.<br/>
+					Special attention should be paid to the security issues, like read, write and execute right on file level.</p></li>
+					<li>
+						<p>If the host operating system is Linux&#47;Unix&#47;Mac, then download the SSW environment scripts from <a href=""
+						target="_blank">here</a> and copy them into the <i>CATALINA_HOME&#47;bin</i> directoy. Then make the scripts in <i>ssw_setup</i> executable,
+						and apply the following changes to <i>expssw.sh</i> in <i>ssw_setup</i>:</p>
+						<p class="code_red">
+						# Set this to IDL 7.0's installation directory</br>
+						IDL_DIR=<b>/Applications/itt/idl70/</b></br>
+						&nbsp;...<br/>
+						# Set this to SSW's installation directory</br>
+						export SSW=<b>/Users/softw/ssw</b><br/>
+						&nbsp;...<br/>
+						# Add here all supported instruments<br/>
+						export SSW_INSTR=<b>&quot;eis hxt cds eit mdi xrt sxt secchi hessi spex xray trace&quot;</b></p>
+					</li>
+					<li>
+						<p>Tomcat needs to execute the above scripts in order to run in an SSW enabled environment. Therefore, the following line must be
+						added to <i>CATALINA_HOME&#47;bin&#47;catalina.sh</i> (NOT if server runs on Windows!):</p>
+						<p class="code_red">&nbsp;...<br/>
+						# ----- Execute The Requested Command -----------------------------------------<br/>
+						CLASSPATH="$CLASSPATH:$JAVA_IDL_LIBS" # This line should be in the code already. Don't add it!<br/>
+						<b>source $CATALINA_HOME&#47;bin&#47;ssw_setup&#47;expssw.sh</b><br/>
+						&nbsp;...</p>
+					</li>
+					<li><b>Add more info here</b></li>
+				</ul>
+			</li>
+			<li>
+				<h4>Application Deployment</h4>
+				<p>The final step is to deploy the <i>VxoPrepServer.war</i>. Before you do so, open up a new console and keep an eye on Tomcat's console output by typing <i class="code_red">tail -f $CATALINA_HOME&#47;logs&#47;catalina.out</i>
+				(does not work under Windows). Then deploy the application by simply copying the application archive to <i>CATALINA_HOME&#47;webapps</i>. Folollow the output to catch error messages.</p>
+			</li>
+		</ol>
+		
+		<h3><a name="Server_Setup_Troubleshooting">Troubleshooting</a></h3>
+		<h4>Tracking Server Messages</h4>
+		<p>Server output can be tracked in a console window by the following command:</p>
+		<p class="code_red">tail -f $CATALINA_HOME&#47;logs&#47;catalina.out</p>
+		<h4>Error Message from IDL: No Display found</h4>
+		<p>This happens when an instrument tries to write something out to an active display. Because the server runs in the background, there is no such display available. Generally, such display requests should be
+		taken care of in the instrument routines. And the server should not try to display any of those messages. This is because a pop-up that requests user interaction could block the server from proceeding. Therefore, it
+		is wiser to let the pre-processing be interrupted and fixed that allowing it to print out messages to the screen. Nevertheless, the following script creates a Virtual Frame Buffer that emulates a virtual screen to which
+		data can be printed to. Just be aware, that this might lead to a blocking server.</p>
+		
+		<p class="code_red"><b>Linux:</b><br/>
+		cat &quot;localhost&quot; &gt; &#47;tmp&#47;X11.cfg<br/>
+		Xvfb :123 -auth &#47;tmp&#47;X11.cfg -screen scrn 800x600x32 2&gt;&#47;dev&#47;null &amp;<br/>
+		&nbsp;<br/>
+		<b>Mac:</b><br/>
+		Xvfb :123 -screen 0 800x600x24 2&gt;&#47;dev&#47;null &amp;</p>
+		
+	<h2><a name="Client_Setup">Client Setup</a></h2>
+	<h3><a name="Client_Setup_Requirements">Requirements</a></h3>
+	<ul>
+		<li>Java 5 or newer</li>
+		<li>IDL version 6.4 or newer</li>
+		<li>Up-to-date SSW library with gen tree</li>
+	</ul>
+	<h3><a name="Client_Setup_Troublesooting">Troubleshooting</a></h3>
+	</body>
+</html>

@@ -1,0 +1,169 @@
+<html>
+	<head>
+		<title>VSO_PREP IDL User's Guide</title>
+		
+		<link rel="stylesheet" type="text/css" href="../../shared/style.css" />
+		
+		<script type="text/javascript" src="../../shared/utility.js"></script>
+		<script type="text/javascript" src="../../shared/popup.js"></script>
+		
+	</head>
+	<body>
+	
+		<!-- HELP ENTRIES -->
+		
+		<div class="popup" id="help_0">Get more details here!</div>
+		
+		<div class="popup" id="help_1">This searches the VSO for the unprocessed <i>eit</i> image closest to April, 21 2002 01:15 UT.</div>
+		
+		<div class="popup" id="help_2">Here <i>vso_prep</i> is called and requested to pre-process the <i>eit</i> image found in the previous command.</div>
+		
+		<div class="popup" id="help_3">In order to load the newly acquired and pre-processed image into <i>PLOTMAN</i> we need to create an <i>eit</i> object.</div>
+		
+		<div class="popup" id="help_4">This reads the <i>eit.fits</i> image file into the <i>eit</i> object.</div>
+		
+		<div class="popup" id="help_5">This command creates an instance of <i>PLOTMAN</i> and plots the <i>eit</i> image.</div>
+		
+		<div class="popup" id="help_6"><i>vso_prep</i> will create a <i>rhessi</i> image covering the interval April, 21 2002 01:15 UT to April, 21 2002 01:16 UT. 
+			Additionaly, the <i>clean</i> algorithm is applied to the image.</div>
+		
+		<div class="popup" id="help_7">In this command, the plotman instance from above is reused. An additional panel is added to it, containing the <i>rhessi</i> image.</div>
+		
+		
+		
+		
+		<div class="popup" id="help_8">Check in what directory the <i>java</i> command is.</div>
+		
+		<div class="popup" id="help_9">Check if <i>java</i> is a symbolic link and where it points at. If there is no <i>-&gt;</i> in the output, <i>java</i> is not referenced. Go to step 4
+			and use the command <i>cd</i> analogous to the given example in step 4(cut off <i>java</i> and <i>bin</i> if present).</div>
+		
+		<div class="popup" id="help_10">Check again if the new location for <i>java</i> is still a symbolic link and where it points at. If there is no <i>-&gt;</i> in
+			the output, <i>java</i> is not referenced. Go to step 4	and use the command <i>cd</i> analogous to the given example in step 4 (cut off <i>java</i> and <i>bin</i> if present).</div>
+		
+		<div class="popup" id="help_11"><i>cd</i> into the <i>jre</i> folder.</div>
+		
+		<div class="popup" id="help_12">Check if you find a <i>lib</i> directory. If not present, talk to your system administrator. You might have a non-standard Java installation.</div>
+		
+		<div class="popup" id="help_13">Check if you can find a <i>i386</i> folder. If that folder is not present, try calling <i>uname -m</i> or <i>dpkg --print-architecture</i> and
+			see if you can find a folder that is called the same as what was printed to the command line by those commands.</div>
+			
+		<div class="popup" id="help_14"><i>cd</i> into the <i>client</i> folder.</div>
+		
+		<div class="popup" id="help_15"><i>pwd</i> prints out your current location in the folder structure. The result is what you need to add to either the IDL-Java Bridge
+		config file or the user variable <i>JAVAIDLB_LIB_LOCATION</i>.</div>
+		
+		<!-- HELP ENTRIES END -->
+		
+		<h1>VSO_PREP IDL Users Guide</h1>
+		<h2>D. M. Zarro (ADNET&#47;GSFC), L. I. Etesi (CUA,FHNW&#47;GSFC), Updated: 2009-06-11</h2>
+		
+		<h2>Purpose</h2>
+		<i>vso_prep</i> is an IDL routine that can be used to remotely pre-process solar image data from within an SSW enabled IDL session. The user does not have
+		to have all the instrument software packages or their calibration data installed.
+		
+		<h2>Description</h2>
+		<p class="code_red"><b>vso_prep</b>, <i>instrument, [file], [outfile=xyz], [list-of-args]</i></p>
+		<table summary="This table contains a brief description of all parameters">
+			<tr>
+				<td><b>instrument</b></td>
+				<td>&nbsp;</td>
+				<td><i>Mandatory</i>. Set the instrument with this parameter. Valid values are:<br/>
+					<ul>
+						<li>rhessi</li>
+						<li>eit</li>
+						<li>euvi</li>
+						<li>trace</li>
+						<li>xrt</li>
+					</ul>	
+				</td>
+			</tr>
+			<tr>
+				<td><b>file</b></td>
+				<td>&nbsp;</td>
+				<td><i>Optional</i>. <i>file</i> can be one of the following:
+					<ul>
+						<li>A hyperlink to a data file on a remote repository.</li>
+						<li>A file path to a local data file</li>
+						<li>Omitted, if the instrument does not require a file. See the <a href="#rhessi_example" target="_self">RHESSI example</a>.</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td><b>outfile</b></td>
+				<td>&nbsp;</td>
+				<td><i>Optional</i>. Specifies the output file path. If omitted, the output file name is a concatination of the original file name and
+					the prefix &#34;prepped_&#34;.</td>
+			</tr>
+			<tr>
+				<td><b>list-of-args</b></td>
+				<td>&nbsp;</td>
+				<td><i>Optional</i>. This comma-separated list can contain any combination of arguments. These arguments will be passed on to the instrument's pre-processing
+					routine. Invalid arguments will be ignored.</td>
+			</tr>
+		</table>
+	
+		<h2>Requirements</h2>
+		<p><i>vso_prep</i> requires the following to be installed on your system:</p>
+		<ul>
+			<li>Up-to-date SSW gen tree (<a href="http://hesperia.gsfc.nasa.gov/rhessidatacenter/software/installation.html" target="_blank">download</a>)</li>
+			<li>IDL version 6.4 or higher</li>
+			<li>Java version 1.5 or higher</li>
+		</ul>		
+		
+		<h2>Troubleshooting</h2>
+		<p>If the pre-processing fails, you can use <i>vso_debug</i> to receive more information on the error.</p>
+		<h3>java.lang.OutOfMemoryError: Java heap space</h3>
+		<p>This message tells you that Java ran out of memory. Since Java is not allowed to access all of your memory, this can happen whenever you pre-process
+		large image files. This error usually occurs under the following circumstances (Please notice, that on some Mac systems, this is an unresolved issue we are working on.):</p>
+		<ol>
+			<li>Your IDL session's heap contains unreferenced objects. You can remove those objects by calling <i>heap_gc</i>.</li>
+			<li>The heap size for Java is too small. You can increase that amount by opening the IDL-Java Bridge configuration file at &lt;IDL_DIR&gt;resource&#47;bridges&#47;import&#47;java&#47;.idljavabrc
+			(on Windows systems there is no leading "." in the file name) and adding the following two lines to the section labelled <i>JVM start options</i>:<br/>
+			<p class="code_red">JVM Option1 -Xms32m<br/>
+			JVM Option2 -Xmx128m</p>
+			This will set the minimum heap space to 32MB, and the maximum to 128MB.
+			</li>
+		</ol>
+		
+		<h3>VSO_PREP: IDL-Java bridge failed to initialize : No valid JVM shared library</h3>
+		<p>If you experience this error, it means that the IDL-Java Bridge could not determine what Java Virtual Machine it should use. To fix this problem, you have two
+		choices:</p>
+		<ol>
+			<li>You add the library location to the IDL-Java Bridge configuration file, section <i>Java virtual machine locations</i>. Add a variable <i>JVM LibLocation = xyz</i> (see
+			below for value of <i>xyz</i>).</li>
+			<li>You add the library location to the user variable <i>IDLJAVAB_LIB_LOCATION</i>, by i.e. adding <i>setenv IDLJAVAB_LIB_LOCATION xyz</i> to your shell startup script (probably <i>.login</i>).</li>
+		</ol>
+		<p>You can determine the library location by performing the following steps (on Unix&#47;Linux, C-Shell):</p>
+		<ol class="code_red">
+			<li>which java # =&gt; &#47;usr&#47;bin&#47;java <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_8', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>ls -la &#47;usr&#47;bin&#47;java # =&gt; lrwxrwxrwx 1 root root 22 Sep 13  2008 &#47;usr&#47;bin&#47;java -&gt; &#47;etc&#47;alternatives&#47;java <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_9', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>la -la &#47;etc&#47;alternatives&#47;java # =&gt; lrwxrwxrwx 1 root root 40 Jun  5 13:50 &#47;etc&#47;alternatives&#47;java -&gt; &#47;usr&#47;lib&#47;jvm&#47;java-1.5.0-sun&#47;jre&#47;bin&#47;java <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_10', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>cd &#47;usr&#47;lib&#47;jvm&#47;java-1.5.0-sun&#47;jre <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_11', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>cd lib <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_12', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>cd i386 <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_13', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>cd client <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_14', event);" onmouseout="!showPopup('close', event);"/></li>
+			<li>pwd # =&gt; &#47;usr&#47;lib&#47;jvm&#47;java-1.5.0-sun&#47;jre&#47;i386&#47;client <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_15', event);" onmouseout="!showPopup('close', event);"/></li>
+		</ol>
+		<p>That last output from <i>pwd</i> is what you add to to the IDL-Java Bridge config file or to the user variable <i>IDLJAVAB_LIB_LOCATION</i>.</p>
+		
+		<h2>Examples</h2>
+		<p>Wherever you see a question mark icon <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_0', event);" onmouseout="!showPopup('close', event);"/>, you get more information when moving your mouse cursor over it.
+		<p>All the following examples can be seen and executed sequentially by calling <i>vso_prep_test</i>.</p>
+		
+		<p>The following example shows how to search for the unprocessed <i>eit</i> image which is closest to <i>April, 21 2002 01:15 UT</i> and then how to send the
+		pre-processing request to the remote server with <i>vso_prep</i>. The pre-processed EIT image will be saved and named <i>eit.fits</i> and plotted
+		with <i>PLOTMAN</i>.</p>
+		<p class="code_red">file = vso_files('21-apr-2002 01:15', inst='eit') <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_1', event);" onmouseout="!showPopup('close', event);"/><br/>
+		vso_prep, 'eit', file, out='eit.fits' <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_2', event);" onmouseout="!showPopup('close', event);"/><br/>
+		eit = obj_new('eit') <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_3', event);" onmouseout="!showPopup('close', event);"/><br/>
+		eit->read, 'eit.fits' <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_4', event);" onmouseout="!showPopup('close', event);"/><br/>
+		p = plotman(input=eit, plot_type='image', desc='EIT image') <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_5', event);" onmouseout="!showPopup('close', event);"/></p>
+		
+		<p>The next command will return a <i>clean rhessi</i> image covering the interval <i>April, 21 2002 01:15 UT - April, 21 2002 01:16 UT</i>, save it as <i>rhessi.fits</i>
+		and plot it with <i>PLOTMAN</i>.</p>
+		<p class="code_red"><a name="rhessi_example" />vso_prep, 'rhessi', out='rhessi.fits', im_time_interval=['21-apr-2002 01:15', '21-apr-2002 01:16'], image_alg='clean' <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_6', event);" onmouseout="!showPopup('close', event);"/><br/>
+		rhessi = obj_new('rhessi')<br/>
+		rhessi->read, 'rhessi.fits'<br/>
+		p->new_panel, input=rhessi, plot_type='image', desc='RHESSI image' <img src="../../shared/qm.png" alt="" width="12" height="12" onmouseover="return !showPopup('help_7', event);" onmouseout="!showPopup('close', event);"/></p>
+	</body>
+</html>

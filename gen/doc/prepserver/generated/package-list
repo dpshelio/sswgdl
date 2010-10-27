@@ -1,0 +1,7 @@
+Preprocessor
+gov.nasa.gsfc.hessi.jidl.prep.client.bridge
+gov.nasa.gsfc.hessi.jidl.prep.client.callback
+gov.nasa.gsfc.hessi.jidl.prep.server
+gov.nasa.gsfc.hessi.jidl.prep.server.Parameter
+gov.nasa.gsfc.hessi.jidl.prep.server.instrument
+gov.nasa.gsfc.hessi.jidl.prep.server.jaxws
