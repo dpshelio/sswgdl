@@ -1,0 +1,20 @@
+This directory contains executables (binary) which are operating system
+specific. Certain SSW IDL SW may only function if the executable for
+your specific machine is available here (might check standard places first,
+like '/usr/local/lib').
+
+Subdirectories are named by the tags of the IDL !version system variable.
+
+For YOUR machine, the SSW bin directory is:
+   concat_dir(concat_dir('$SSW','bin'),!version.OS + '_' + !version.ARCH)
+
+Example
+On MY machine...
+
+IDL> print,concat_dir(concat_dir('$SSW','bin'),!version.OS + '_' + !version.ARCH)
+/ssw/bin/OSF_alpha
+ 
+In fact, I am going to write a function right now called: "ssw_bin.pro" 
+which returns the above value.  That way, the apprproprate executable may
+be accessed via concat_dir(ssw_bin(),'programname')
+

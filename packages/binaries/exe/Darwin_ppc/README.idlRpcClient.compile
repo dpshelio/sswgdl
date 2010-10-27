@@ -1,0 +1,1 @@
+beauty:~/rpc/rpc freeland$ gcc  -no-cpp-precomp  -dynamic -flat_namespace -undefined suppress  -fno-common  idlRpcClient.c
