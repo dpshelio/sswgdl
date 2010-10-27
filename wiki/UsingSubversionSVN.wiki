@@ -25,9 +25,14 @@ svn commit --message 'a description of my changes'
 }}}
 This will uploaded the files you have changed to the project.  You are required to always append a message describing your changes.  In order for the messages to be worthwhile please try to run commit as often as possible.
 
-Other self-explanatory commands are also possible such as
+If you would like to add files to the project it is NOT enough to create them within the directory.  You must also declare them to the SVN with the following command
 {{{
 svn add filename
+}}}
+This command also works for directories.  You can then run the commit command.
+
+Other self-explanatory commands are also possible such as
+{{{
 svn move
 svn delete
 }}}
