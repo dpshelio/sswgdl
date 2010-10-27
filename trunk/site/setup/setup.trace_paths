@@ -1,0 +1,14 @@
+#!/bin/csh -f
+#
+###########################################################################
+#   Site Dependent TRACE data path
+#
+#   envs may be single-valued or a comma delimted list (handle different 
+#   pathnames on different machines at a given site)
+#     
+#   29-March-2000 - S.L.Freeland - provide site template
+###########################################################################
+# trace Level Zero files ("tri" file parent)
+setenv TRACE_I1_DIR $HOME
+###########################################################################
+

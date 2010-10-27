@@ -1,0 +1,46 @@
+#!/bin/csh -f
+#
+# Define SSW related environmentals
+#
+# define:
+#	mission and missiondb paths
+#       desired SW and DB sets
+# History:
+# Circa Jan 1 1996 - S.L.Freeland
+# 2-March-1999 - S.L.Freeland - add OPTICAL mission
+#14-May-2003 - change way envs are set to handle Linux/Redhat 8.0 &GNU linux tcsh bug
+#              (derived from Paul Bilodeau derived manual workaround)
+#13-feb-2004 - vobs
+##############################################################
+
+if (!($?SSWDB)) then			 # top level
+   eval "setenv SSWDB $SSW/dbase"
+endif
+
+set miss=(yohkoh soho spartan smm trace hessi radio optical vobs)
+
+foreach mission ($miss)
+   set chk=`printenv $mission'db'`
+   if ($chk == "") then
+      set tmp=$mission'db'  ### 14-May-2003 change for Linux tcsh bug
+      setenv $tmp $SSWDB/$mission
+      #eval "setenv $mission'db' $SSWDB/$mission"
+   endif
+end
+
+# --------------- backward compatibility issues --------------------
+if (!($?ydb)) then			# yohkohdb aka ydb?
+   setenv ydb $yohkohdb
+else
+   setenv yohkohdb $ydb
+endif
+# -------------------------------------------------------------------
+
+# define defaults
+if (!($?ssw_sw_sets)) then
+   setenv ssw_sw_sets "ssw_soho_eit ssw_yohkoh_sxt"		# admit biased view
+endif
+
+if (!($?ssw_db_sets)) then
+   setenv ssw_db_sets "ssw_ydb_g75 ssw_ydb_nar ssw_ydb_gev ssw_ydb_xad ssw_ydb_xbd ssw_ydb_evn"
+endif

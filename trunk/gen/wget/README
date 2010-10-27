@@ -1,0 +1,8 @@
+This directory contains binaries of 'wget' - a useful utility for mirroring
+remote files that does not use PERL. The directory is organized by OS.
+
+Latest documentation on 'wget' is available at:
+
+http://wget.sunsite.dk/
+
+Last updated: 14 January, 2004 Zarro (L-3Com/GSFC) 

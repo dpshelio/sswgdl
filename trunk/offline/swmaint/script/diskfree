@@ -1,0 +1,60 @@
+#!/bin/csh -f
+#
+#  diskfree
+#
+#  return number of free 1024 byte blocks availible on specified disk
+# 
+#  Calling Sequence:
+#     % csh diskfree [disk]
+#
+#  Calling Examples:
+#     % csh diskfree $ys		# echo availble blocks on disk (env=$ys)
+#     % set avail=`diskfree $ys`	# assign (for use in scripts)
+#
+#  Written circa Jan 1994 (SLF)
+#  25-apr-95 (SLF) - 			# add SystemV check 
+#  26-apr-95 (SLF) - 			# made check for df -k generic
+#  16-jan-96 (SLF) - 			# set size to 999999 if DF problem
+#  11-jan-99 (SLF) -                    # add OS case for df checks
+#                                       # set HP-UX case-> -Pk
+#
+set disk=`pwd`				# default to current
+
+if ($#argv > 0) then
+   set disk="$1"
+endif
+
+set bswitch=""
+# check to see if "k" qualifier is defined for local df command
+set chkk=`df -k`			# generates df warning message 
+if ($#chkk > 0) then			# on non "-k" systems....
+     set bswitch="-k"			# force -k switch in df call
+endif
+
+if ($?SystemV) then			# set this environemental -> 1 to
+     set bswitch="-k"			# force -k switch in df call
+endif
+
+set os=`uname`
+switch ("$os")
+   case HP-UX:
+      set bswitch="-Pk"
+      breaksw
+   default:
+      breaksw
+endsw
+
+
+set command="df "$bswitch" "$disk
+set dfecho=`$command`
+set nwords = `echo $dfecho | wc -w`
+
+if ($nwords < 12) then
+   set avail=999999
+else
+   @ availpnt =$nwords - 2
+   set avail=$dfecho[$availpnt] 
+endif
+
+echo $avail
+exit

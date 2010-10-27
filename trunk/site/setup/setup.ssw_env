@@ -1,0 +1,45 @@
+########################################################################
+# site dependent SSW-wide  environmentals 
+#
+# 29-March-2000 S.L.Freeland - Provide SITE template files
+########################################################################
+
+########################################################################
+# SSW Site name/abbreviation 
+setenv SSW_SITE XXXX  # << Your institute; ex: GSFC, ISAS, NRL, MSSL, LMSAL...
+########################################################################
+
+########################################################################
+########################################################################
+# WWW/HTTP configuration used by ssw software ($SSW/gen/idl/http/xxx)
+# See: http://www.lmsal.com/solarsoft/ssw_movie_making.html for example
+########################################################################
+# NOTE - $top_http is URL which matches disk pathname $path_http
+setenv path_http $SSWDB/http                                # << top path
+setenv top_http  http://sohowww.nascom.nasa.gov/sswdb/http/ # << top URL
+setenv http_movies $path_http/movies                        # default
+setenv http_movies_scratch $path_http/movie_scratch         # default
+########################################################################
+########################################################################
+
+#########################################################################
+# local SSW support areas
+setenv SSW_OFFLINE $SSW/unsupport/ssw_offline
+#########################################################################
+
+#########################################################################
+# SITE time zone
+setenv SSW_TZ   5         # offset from UT           # <<  your TZ value here
+setenv SSW_DST  1         # flag if DST is obeyed    
+########################################################################
+
+########################################################################
+# Define people who can run go_file_purge at this site
+#setenv FILE_PURGE_USERS "user1,user2,root"          
+########################################################################
+
+#########################################################################
+# temporary defintions to hold things together
+setenv DIR_GEN_SCRIPT $ys/gen/script	      # backward reference (Yohkoh)
+#########################################################################
+

@@ -1,0 +1,79 @@
+#!/bin/csh -f
+#
+##############################################################################
+#   setenv_pathlist
+#
+#   S.L.Freeland
+#   6-March-1996.
+#   14-aug-1996 - system 5 difference in 'source' behavior 
+#                 use environmental 'env_list' instead of argument list
+#   23-apr-1997 - protect against ARGV corruption
+#
+#   24-May-2004 - only set path environmental if not defined
+#
+#   set path environmentals - permit list of possible paths for each env.
+#   (file permits machines to use various pathnames/symbolic links)
+#
+#   Calling Sequence:
+#      source setenv_pathlist <path_file>
+#
+#   Where <path_file> is a two or three column file of the form:
+#      -------------------------------------------
+#      setenv XXX path1,path2,path3,path4,...pathN
+#      setenv YYY path
+#      setenv ZZZ path1,path2
+#      (etc)--------------------------------------
+#   OR
+#      XXX path1,path2,path3,path4,...pathN
+#      YYY path
+#      ZZZ path1,path2
+#      (etc)--------------------------------------
+#
+#   After excution, the environmentals
+#      XXX, YYY, ZZZ are set to elements of the corresponding pathlist
+#      which actually exist on the executing machine
+#
+#
+##############################################################################
+
+set args=`printenv env_list`
+
+if ($#args != 1) then
+   set chkcnv=`printenv env_list`
+   if ($#chkcn != 1) then 
+      echo "Need a file name..."
+      exit
+   else
+      set pathfile="$chkcnv"
+   endif
+else
+   set pathfile=$args[1]
+endif
+
+if (!(-e $pathfile)) then
+   echo "Could not find file: " $pathfile
+   exit
+endif
+
+# decomment the pathfile and 'nullify the setenv parts'
+set segments=`$SSW/gen/bin/de_comment $pathfile |grep setenv | sed s+setenv++`
+
+while ($#segments >= 2)
+
+# don't set path is already defined
+
+   set temp = `printenv $segments[1]`
+   set define = 1
+   if ($#temp == 1) then
+    if (-d $temp) set define = 0
+   endif
+   if ($define == 1) then 
+    set string="setenv $segments[1] `$SSW/gen/bin/valid_paths $segments[2]`"
+    eval $string
+   endif
+
+   shift segments
+   shift segments
+end
+
+exit

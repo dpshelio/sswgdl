@@ -1,0 +1,23 @@
+; SSW Site Dependent IDL_STARTUP
+;
+
+qtemp=!quiet
+!quiet=1
+; ---------- Include mission GEN trees if required --------------
+yohkoh=get_logenv('SSW_YOHKOH_INSTR')
+soho  =get_logenv('SSW_SOHO_INSTR')
+isspartan   =strpos(get_logenv('SSW_INSTR'),'spartan') ne -1
+inst  =strtrim(strlowcase(str2arr(get_logenv('SSW_INSTR'),' ')),2)
+valid=where(inst ne '',count)
+if count eq 0 then begin message,'No instruments listed in SSW_INSTR',/cont & inst='gen' & endif
+
+inst=inst(valid)
+isy=0 & iss=0 
+for i=0,n_elements(inst)-1 do isy=isy  or (strpos(yohkoh,inst(i)) ne -1) 
+for i=0,n_elements(inst)-1 do iss=iss or (strpos(soho,inst(i)) ne -1) 
+if (iss or isy or isspartan) then ssw_path,yohkoh=isy, soho=iss, spartan=isspartan, /quiet
+if (isy) then ssw_path,/ucon,/yohkoh,/quiet
+if is_member('trace',inst) then $
+  ssw_path,'$SSW/trace/ssw_contributed/',/prepend         ; required
+!quiet=qtemp
+

@@ -1,0 +1,292 @@
+			    Standard FITS Keywords
+
+This is an alphabetical listing of standard FITS keywords, with a particular
+emphasis on keywords used within solar physics.  Users developing their own
+keywords can examine this list to see if a proposed keyword already has a
+standard or widely recognized meaning.  The list also includes keywords that
+have been used in the past, but are no longer recommended for use--such
+keywords are marked as "deprecated".  (See footnote 1.)
+
+The following references are for keywords published in the literature, or
+officially recognized by the IAU FITS committee.
+
+[1] Hanish, R.J. et al., 2001, A&A 376, 359-380
+[2] Greisen, E.W. and Calabretta, M.R., 2002, A&A 395, 1061-1075
+[3] Calabretta, M.R. and Greisen, E.W., 2002, A&A 395, 1077-1122
+[4] Greisen, E.W. et al., 2006, A&A 446, 747-771
+[5] Thompson, W.T., 2006, A&A 449, 791-803
+[6] Calabretta, M.R. et al., "Representations of distortions in FITS world
+    coordinate system", draft, http://www.atnf.csiro.au/people/mcalabre/WCS/
+[7] Thompson, W.T., "Error sources for solar image_coordinates", draft, 
+    http://achilles.nascom.nasa.gov/~thompson/papers/coord_errors.pdf
+
+The following references are for keywords from less official sources.  Users
+should be aware that the meanings of keywords from the lettered references may
+not be used in a consistent manner by all members of the solar or astronomical
+community.  That's particularly true of those keywords marked as deprecated.
+
+[A] Commonly held convention
+[B] Howard, R. and Thompson, W, "Proposed keywords for SOHO", 2002,
+    http://achilles.nascom.nasa.gov/ (only selected keywords listed)
+[C] SolarSoft conventions, http://www.lmsal.com/solarsoft/ssw_standards.html
+[Y] Mink, D., "The WCSDEP convention", http://www.ucolick.org/~sla/fits/
+    (These keywords are expected to be folded into reference [6].)
+[Z] Inferred from other keywords
+
+Conventions used in the list
+
+#	= Integer, generally in the range 0-999
+##	= Two single-digit integers in a row
+@	= Optional single character A-Z
+$	= Required single character A-Z
+
+<blank>		[1]	Any ASCII text (can be multiple)
+##CD#@		[2]	Same as CD* for binary tables
+##PC#@		[2]	Same as PC* for binary tables
+#CDE#$		[2]	Same as CDELT* for binary tables (alternate)
+#CDLT#		[2]	Same as CDELT* for binary tables
+#CNA#@		[4]	Same as CNAME* for binary tables
+#CROT#		[2]	Same as CROTA* for binary tables
+#CRP#$		[2]	Same as CRPIX* for binary tables (alternate)
+#CRPX#		[2]	Same as CRPIX* for binary tables
+#CRV#$		[2]	Same as CRVAL* for binary tables (alternate)
+#CRVL#		[2]	Same as CRVAL* for binary tables
+#CSY#@		[2]	Same as CRDER* for binary tables
+#CTY#$		[2]	Same as CTYPE* for binary tables (alternate)
+#CTYP#		[2]	Same as CTYPE* for binary tables
+#CUN#$		[2]	Same as CUNIT* for binary tables (alternate)
+#CUNI#		[2]	Same as CUNIT* for binary tables
+#DP#@		[6]	Same as DP* for binary tables
+#DQ#@		[6]	Same as DQ* for binary tables
+#S#_#@		[2]	Same as PS* for binary tables
+#V#_#@		[2]	Same as PV* for binary tables
+#V#_X@		[2]	Coordinate parameter array
+ANGLE		[B]	Angle of observation			[DEPRECATED]
+AUTHOR		[1]	Author of data
+BITPIX		[1]	Bits/pixel, negative for floating point
+BLANK		[1]	Value signaling undefined integer data
+BLOCKED		[1]	True if file block size = N*2880	[DEPRECATED]
+BSCALE		[1]	Multiplier for data values
+BUNIT		[1]	Data units
+BZERO		[1]	Offset for data values
+CARX_OBS	[7]	Carrington X coordinate of observer
+CARY_OBS	[7]	Carrington X coordinate of observer
+CARZ_OBS	[7]	Carrington Z coordinate of observer
+CAR_ROT		[5]	Carrington rotation number
+CD#_#@		[2]	Dimensioned transformation matrix
+CDELT#@		[2]	Pixel spacing along axis #
+CNAME#@		[4]	Name of coordinate axis #
+COMMENT		[1]	ASCII comment (can be multiple)
+CPDIS#@		[6]	Prior distortion function type
+CPERR#@		[6]	Max value of prior distortion correction for axis #
+CQDIS#@		[6]	Sequent distortion function type
+CQERR#@		[6]	Max value of sequent distortion correction for axis #
+CRDER#@		[2]	Random coordinate error along axis #
+CRLN_OBS	[5]	Carrington heliographic longitude of observer
+CRLT_OBS	[5]	Carrington heliographic latitude of observer
+CROTA		[Z]	Unofficial equivalent of CROTA#		[NON-STANDARD]
+CROTA#		[1]	Coordinate rotation (see footnote 1)	[DEPRECATED]
+CRPIX#@		[2]	Reference pixel along axis #
+CRVAL#@		[2]	Reference value along axis #
+CTYPE#@		[2]	Type of coordinate axis #
+CUNIT#@		[2]	Units along axis #
+DATAMAX		[1]	Data maximum
+DATAMIN		[1]	Data minimum
+DATE		[1]	FITS creation date
+DATE-AVG	[4]	Average date of observation
+DATE-END	[A]	End date/time of observation
+DATE-OBS	[1]	Date of observation, usually start time
+DATE_AVG	[Z]	DATE-AVG with light travel correction	[DEPRECATED]
+DATE_END	[B]	DATE-END with light travel correction	[DEPRECATED]
+DATE_OBS	[B]	DATE-OBS with light travel correction	[DEPRECATED]
+DAVG#		[4]	Same as DATE-AVG for binary tables or pixel lists
+DAY		[C]	Number of days since 1979-1-1		[DEPRECATED]
+DETECTOR	[B]	Detector used to acquire the data
+DIST_OBS	[5]	Reserved but not used
+DP#@		[6]	Parameter for a prior distortion function
+DQ#@		[6]	Parameter for a sequent distortion function
+DSUN_OBS	[5]	Distance between the observer and Sun center
+DVERR@		[6]	Max value of all distortion corrections combined
+END		[1]	End of header
+EPOCH		[1]	Deprecated, use EQUINOX instead		[DEPRECATED]
+EQUI#@		[3]	Same as EQUINOX for binary tables or pixel lists
+EQUINOX@	[3]	Floating point year associated with coordinate system
+EXPTIME		[B]	Exposure time in seconds
+EXTEND		[1]	FITS file may contain extensions
+EXTLEVEL	[1]	Level of extension in hierarchy
+EXTNAME		[1]	Name of extension
+EXTVER		[1]	Version of extension
+FILENAME	[B]	Name of the data file
+GCOUNT		[1]	Size parameter for extra (heap) data
+GEIX_OBS	[5]	Geocentric equatorial inertial X
+GEIY_OBS	[5]	Geocentric equatorial inertial Y
+GEIZ_OBS	[5]	Geocentric equatorial inertial Z
+GEOX_OBS	[5]	Geographic X
+GEOY_OBS	[5]	Geographic Y
+GEOZ_OBS	[5]	Geographic Z
+GROUPS		[1]	True if random groups are present	[DEPRECATED]
+GSEX_OBS	[5]	Geocentric solar ecliptic X
+GSEY_OBS	[5]	Geocentric solar ecliptic Y
+GSEZ_OBS	[5]	Geocentric solar ecliptic Z
+GSMX_OBS	[5]	Geocentric solar magnetic X
+GSMY_OBS	[5]	Geocentric solar magnetic Y
+GSMZ_OBS	[5]	Geocentric solar magnetic Z
+HAEX_OBS	[5]	Helicentric Aries Ecliptic X
+HAEY_OBS	[5]	Helicentric Aries Ecliptic Y
+HAEZ_OBS	[5]	Helicentric Aries Ecliptic Z
+HCIX_OBS	[5]	Heliocentric Intertial X
+HCIY_OBS	[5]	Heliocentric Intertial Y
+HCIZ_OBS	[5]	Heliocentric Intertial Z
+HCPA_OBS	[5]	Reserved but not used
+HECH_OBS	[5]	Radial distance from the solar surface of observer
+HECR_OBS	[5]	Reserved but not used
+HEEX_OBS	[5]	Heliocentric Earth Ecliptic X
+HEEY_OBS	[5]	Heliocentric Earth Ecliptic Y
+HEEZ_OBS	[5]	Heliocentric Earth Ecliptic Z
+HEQX_OBS	[5]	Heliocentric Earth Equatorial X
+HEQY_OBS	[5]	Heliocentric Earth Equatorial Y
+HEQZ_OBS	[5]	Heliocentric Earth Equatorial Z
+HGLN_OBS	[5]	Stonyhurst heliographic longitude of observer
+HGLT_OBS	[5]	Stonyhurst heliographic latitude of observer
+HISTORY		[1]	ASCII history record (can be multiple)
+HPLN_OBS	[5]	Reserved but not used
+HPLT_OBS	[5]	Reserved but not used
+HPRZ_OBS	[5]	Reserved but not used
+HRLN_OBS	[5]	Reserved but not used
+HRLT_OBS	[5]	Reserved but not used
+INSTRUME	[1]	Name of instrument
+LATP#@		[3]	Same as LATPOLE for binary tables or pixel lists
+LATPOLE@	[3]	Native latitude of celestial north pole
+LONP#@		[3]	Same as LONPOLE for binary tables or pixel lists
+LONPOLE@	[3]	Native longitude of celestial north pole
+MAGX_OBS	[5]	Geomagnetic X
+MAGY_OBS	[5]	Geomagnetic Y
+MAGZ_OBS	[5]	Geomagnetic Z
+MJD		[C]	Modified Julian Day			[DEPRECATED]
+MJD-AVG		[4]	Average Modified Julian Date of observation
+MJD-OBS		[3]	Modified Julian Date of observation
+MJDA#		[4]	Same as MJD-AVG for binary tables or pixel lists
+MJDOB#		[3]	Same as MJD-OBS for binary tables or pixel lists
+NAXIS		[1]	Number of axes
+NAXIS#		[1]	Dimension along axis #
+OBJECT		[1]	Name of object
+OBJ_ID		[B]	Object identifier, e.g. active region number
+OBSERVER	[1]	Name of observer
+OBSGEO-X	[4]	Geographic X location of observatory (m)
+OBSGEO-Y	[4]	Geographic Y location of observatory (m)
+OBSGEO-Z	[4]	Geographic Z location of observatory (m)
+OBSGX#		[4]	Same as OBSGEO-X for binary tables or pixel lists
+OBSGY#		[4]	Same as OBSGEO-Y for binary tables or pixel lists
+OBSGZ#		[4]	Same as OBSGEO-Z for binary tables or pixel lists
+OBS_MODE	[B]	Observing mode
+OBS_PROG	[B]	Name of the observing program
+ORIGIN		[1]	Responsible organization or institution
+PC#_#@		[2]	Transformation matrix
+PCOUNT		[1]	Size parameter for extra (heap) data
+PS#_#@		[2]	ASCII coordinate parameter
+PSCAL#		[1]	Equivalent of BSCALE for random groups	[DEPRECATED]
+PTYPE#		[1]	Name of parameter # for random groups	[DEPRECATED]
+PV#_#@		[2]	Coordinate parameter
+PZERO#		[1]	Equivalent of BZERO for random groups	[DEPRECATED]
+RADE#@		[3]	Same as RADESYS for binary tables or pixel lists
+RADESYS@	[3]	Reference frame
+REFERENC	[1]	Reference to publication for data
+RESTFREQ	[4]	Line rest frequency (synonym of RESTFRQ)
+RESTFRQ@	[4]	Line rest frequency (Hz)
+RESTWAV@	[4]	Line rest wavelength (m)
+RFRQ#@		[4]	Same as RESTFRQ for binary tables or pixel lists
+RSUN_REF	[7]	Value of Rsun (meters) used in determining coordinates
+RWAV#@		[4]	Same as RESTWAV for binary tables or pixel lists
+SCI_OBJ		[B]	The science objective of the observation
+SC_ROLL		[B]	Spacecraft roll				[DEPRECATED]
+SIMPLE		[1]	True if conforming FITS file
+SM_X_OBS	[5]	Solar magnetic X
+SM_Y_OBS	[5]	Solar magnetic Y
+SM_Z_OBS	[5]	Solar magnetic Z
+SOBS#@		[4]	Same as SSYSOBS for binary tables or pixel lists
+SOLAR_B0	[B]	Solar B0 angle
+SOLAR_L0	[A]	Solar L0 angle
+SOLAR_P0	[B]	Solar P0 angle
+SOLI_OBS	[5]	Reserved but not used
+SOLX_OBS	[5]	Reserved but not used
+SOLY_OBS	[5]	Reserved but not used
+SOLZ_OBS	[5]	Reserved but not used
+SPEC#@		[4]	Same as SPECSYS for binary tables or pixel lists
+SPECSYS@	[4]	Spectral reference frame
+SSRC#@		[4]	Same as SSYSSRC for binary tables or pixel lists
+SSYSOBS@	[4]	Spectral reference frame fixed during observation
+SSYSSRC@	[4]	Spectral reference frame for SOURCE cases
+TBCOL#		[1]	Column number for ASCII table field #
+TC#_#@		[2]	Same as CD* for pixel lists
+TCDE#$		[2]	Same as CDELT* for pixel lists (alternate)
+TCDLT#		[2]	Same as CDELT* for pixel lists
+TCNA#@		[4]	Same as CNAME* for pixel lists
+TCROT#		[2]	Same as CROTA* for pixel lists
+TCRP#$		[2]	Same as CRPIX* for pixel lists (alternate)
+TCRPX#		[2]	Same as CRPIX* for pixel lists
+TCRV#$		[2]	Same as CRVAL* for pixel lists (alternate)
+TCRVL#		[2]	Same as CRVAL* for pixel lists
+TCSY#@		[2]	Same as CRDER* for pixel lists
+TCTY#$		[2]	Same as CTYPE* for pixel lists (alternate)
+TCTYP#		[2]	Same as CTYPE* for pixel lists
+TCUN#$		[2]	Same as CUNIT* for pixel lists (alternate)
+TCUNI#		[2]	Same as CUNIT* for pixel lists
+TDIM#		[1]	Dimensions of binary table field #
+TDISP#		[1]	Format for displaying binary table field #
+TDMAX#		[B]	Same as DATAMAX* for binary tables
+TDMIN#		[B]	Same as DATAMIN* for binary tables
+TDP#@		[6]	Same as DP* for pixel lists
+TDQ#@		[6]	Same as DQ* for pixel lists
+TELESCOP	[1]	Name of telescope
+TFIELDS		[1]	Number of fields in ASCII or binary table
+TFORM#		[1]	Format of ASCII or binary table field #
+THEAP		[1]	Byte position of start of binary table heap area
+TIME		[C]	Milliseconds of day			[DEPRECATED]
+TIME-OBS	[A]	Time of observation (see footnote 3)	[OBSOLETE]
+TIME_OBS	[Z]	TIME-OBS with light travel correction	[DEPRECATED]
+TNULL#		[1]	Null value for ASCII or binary table field #
+TP#_#@		[2]	Same as PC* for pixel lists
+TS#_#@		[2]	Same as PS* for pixel lists
+TSCAL#		[1]	Equivalent of BSCALE for ASCII or binary tables
+TTYPE#		[1]	Name of ASCII or binary table field #
+TUNIT#		[1]	Units of ASCII or binary table field #
+TV#_#@		[2]	Same as PV* for pixel lists
+TWCS#@		[2]	Same as WCSNAME for pixel lists
+TZERO#		[1]	Equivalent of BZERO for ASCII or binary tables
+VANG#@		[4]	Same as VELANGL for binary tables or pixel lists
+VELANGL@	[4]	Angle of true velocity from tangent to line of sight
+VELOSYS@	[4]	Radial velocity wrt standard of rest (m/s)
+VSYS#@		[4]	Same as VELOSYS for binary tables or pixel lists
+WAVELNTH	[B]	Wavelength of observation (character or Angstroms)
+WCAX#@		[2]	Same as WCSAXES for binary tables
+WCDP#@		[Y]	Same as WCSDEP for binary tables
+WCSAXES@	[2]	WCS coordinate dimensionality
+WCSDEP@		[Y]	WCS dependence parameter
+WCSN#@		[2]	Same as WCSNAME for binary tables
+WCSNAME@	[2]	Coordinate system name
+WCST#@		[2]	WCS cross-reference target
+WCSX#@		[2]	WCS cross-reference
+XCEN		[B]	X coordinate of array center
+XTENSION	[1]	Name of extension type
+YCEN		[B]	Y coordinate of array center
+ZSOU#@		[4]	Same as ZSOURCE for binary tables or pixel lists
+ZSOURCE@	[4]	Redshift of source for SOURCE cases
+
+===============================================================================
+Footnotes
+
+1.  The CROTA# keyword requires some special comment.  This keyword is now
+considered deprecated in favor of the PC* (or CD*) transformation matrix.
+However, it's still widely used, and both [3] and [5] give official definitions
+of its meaning.
+
+Officially, one cannot combine CROTA#, PC*, and CD* keywords in the FITS
+header.  However, some people have expressed the wish to have the same
+information in the header in an easily readable form.  The non-official keyword
+CROTA can be used for this purpose, although it skirts the edge of what the
+standard allows.
+
+2.  All DATE_* keywords are deprecated in favor of the standard DATE-* form.
+
+3.  TIME-OBS is a widely used keyword, but it should be considered obsolete in
+light of the fact that DATE-OBS can now include time information (since 1997).

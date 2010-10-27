@@ -1,0 +1,89 @@
+<html>
+
+	<head>
+	
+		<title>Preprocessor__define.pro Users Guide</title>
+		
+		<link rel="stylesheet" type="text/css" href="../../shared/style.css" />
+		
+		<script type="text/javascript" src="../../shared/utility.js"></script>
+		<script type="text/javascript" src="../../shared/popup.js"></script>
+		
+	</head>
+		
+	<body>
+		<h1>Preprocessor Users Guide</h1>
+		<h2>L. I. Etesi (CUA,FHNW&#47;GSFC), Updated: 2009-05-05</h2>
+				
+		<h2>Synopsis</h2>
+		<p class="code_red">prep = obj_new('<b>preprocessor</b>')<br/>
+		prep-&gt;setInstrument, <i>instrument</i><br/>
+		prep-&gt;addArgument, <i>argName, argValue</i><br/>
+		prep-&gt;setOutfile, <i>outfile</i><br/>
+		prep-&gt;setInfile, <i>infile</i><br/>
+		prep-&gt;preprocess</p>
+		
+		<h2>Requirements</h2>
+		<p><i>preprocessor</i> requires the SSW gen tree and all appropriate instrument packages to be installed (best if calibration data are available).</p>
+		
+		<h2>Description</h2>
+		<p>The <i>preprocessor</i> object is part of the PrepServer application. It's task is to redirect and execute preprocessing requests. In order for it
+		to be used from the Java server application, <i>preprocessor</i> is exportet to Java.<br/>
+		The file name is <i>preprocessor__define.pro</i> which is not included in SSW but only available to the PrepServer application.</p>
+		
+		<table summary="This table contains a brief description of all parameters">
+			<tr>
+				<td><b>instrument</b></td>
+				<td>&nbsp;</td>
+				<td>This parameter specifies the image's instrument type. Currently, following values are allowed: <font style="font-style:italic">eit, rhessi</font>
+					For information about the instrument preprocessing parameters, please refer to the appropriate IDL object description in SSW gen tree.</td>
+			</tr>
+			<tr>
+				<td><b>infile</b></td>
+				<td>&nbsp;</td>
+				<td><i>Optional</i>. The file parameter can be omitted if the instrument's preprocessing
+					package implements an interval search, such as <i>rhessi</i>. Otherwise, it is a hyperlink to a web repository, a file
+					path to a local file or a byte array of data.</td>
+			</tr>
+			<tr>
+				<td><b>outfile</b></td>
+				<td>&nbsp;</td>
+				<td>Specifies the output file path and name. Currently, that parameter cannot be left out. If done so anyway, the created image might
+				end up anywhere on the system and will not be able to </td>
+			</tr>
+			<tr>
+				<td><b>argName</b></td>
+				<td>&nbsp;</td>
+				<td>This is the parameter name used by the called preprocessing routine, such as for example <i>cosmic</i> for <i>eit</i>.</td>
+			</tr>
+			<tr>
+				<td><b>argValue</b></td>
+				<td>&nbsp;</td>
+				<td>This is the actual value, that goes with <i>argname</i>. It can be of any of the following types (including there
+				array versions): <i>String, boolean, byte, integer, long, float, double</i>.</td>
+			</tr>
+		</table>
+		
+		<h2>Return value</h2>
+		<p>None of the routines have return values.</p>
+			
+		<h2>Errors</h2>
+		<p>The preprocessing routine might fail for various reasons. The routine <i>vso_debug</i> might give further information. Improved debugging functionality
+		will be introduced in a future release.</p>
+		
+		<h2>Examples</h2>
+		<p>Generally, this object should not be used directly! The following example creates a <i>clean rhessi</i> image from the given interval and plots it.
+		Bear in mind, that the rhessi instrument tree must be installed. Probably, <i>search_network, /enabled</i> should be activate too, in case the 
+		necessary calibration data are not available.</p>
+		<p class="code_red">IDL&gt; prep = obj_new('preprocessor')<br/>
+		IDL&gt; prep->setInstrument, 'rhessi'<br/>
+		IDL&gt; prep->setInfile, ''<br/>
+		IDL&gt; prep->setOutfile, 'rhessi_out.fits'<br/>
+		IDL&gt; prep->addArgument, 'image_alg', 'clean'<br/>
+		IDL&gt; prep->addArgument, 'im_time_interval', ['21-apr-2002 01:15', '21-apr-2002 01:16']<br/>
+		IDL&gt; prep->preprocess<br/>
+		IDL&gt; rhessi = obj_new('rhessi')<br/>
+		IDL&gt; rhessi->read, 'rhessi_out.fits'<br/>
+		IDL&gt; rhessi->plot, /color</p>
+	</body>
+</html>

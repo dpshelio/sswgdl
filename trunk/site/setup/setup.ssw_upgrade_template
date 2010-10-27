@@ -1,0 +1,16 @@
+#######################################################
+# $SSW/site/setup/setup.ssw_upgrade
+#
+# 29-March-2000 S.L.Freeland - Template supplied
+#
+# See: http://www.lmsal.com/solarsoft/ssw_upgrades.html
+# 
+#######################################################
+#
+# Uncomment SSW_INSTR line and add/remove desired local instruments packages
+#
+#SSW_INSTR eit, sxt, trace, mdi, binaries, chianti
+#
+#
+#######################################################
+

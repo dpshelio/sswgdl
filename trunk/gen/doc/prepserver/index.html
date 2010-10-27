@@ -1,0 +1,55 @@
+<html>
+
+	<head>
+		
+		<title>Documentation PrepServer and SSW Routines</title>
+		
+		<link rel="stylesheet" type="text/css" href="shared/style.css" />
+		
+		<script type="text/javascript" src="shared/utility.js"></script>
+		<script type="text/javascript" src="shared/popup.js"></script>
+		
+	</head>
+	<body>
+	
+		<h1>Documentation PrepServer and SSW Routines</h1>
+		<h2>L. I. Etesi (CUA,FHNW&#47;GSFC), Updated: 2009-06-14</h2>
+		
+		<p>From this portal page you can access the PrepServer and its SSW related documentation. If you are interested in how to work with the PrepServer as a users, you
+		might be interested to read the documentation in section <a href="#user_manuals">User Manuals</a>. If you want to receive more in-depth information on the PrepServer or
+		if you plan to develop your own PrepServer client, then the section labelled <a href="#admin_programmer">Administrator and Programmer Pages</a> is where you want to
+		go look.</p>
+		
+		<h2><a name="user_manuals">User Manuals</a></h2>
+		
+		<h3>IDL Routines and Objects</h3>
+		<p><a name="vso_prep" href="manual/client/vso_prep_idl.html" target="_self">vso_prep.pro</a>: <i>vso_prep is an IDL routine that can be used to remotely pre-process solar image data
+			from within an SSW enabled IDL session. You do not have to have all the instrument software packages or their calibration data installed</i>.</p>
+		
+		<hr/>
+		
+		<h2>Administrator and Programmer Pages</h2>
+		
+		<h3>PrepServer Documentation</h3>
+		<p><a href="manual/server/prepserver.html" target="_self">PrepServer Documentation</a>: <i>The intention of this document is to describe the PrepServer, and to explain how to set
+		it up and how to troubleshoot it.</i></p>
+		
+		<h3>IDL Routines and Objects</h3>
+		<p><a href="manual/client/vxo_prep_idl.html" target="_self">vxo_prep.pro</a>: <i>vxo_prep is an IDL routine that can be used to remotely pre-process solar image data
+		from within an SSW enabled IDL session. You do not have to have all the instrument software packages or their calibration data installed. Please also 
+		notice the IDL routine called vso_prep which is a wrapper for this vxo_prep routine. Unless your intention is to develop your own IDL PrepServer client,
+		you might want to use <a href="#vso_prep">vso_prep</a> instead.</i></p>
+		
+		<p><a href="manual/server/preprocessor_idl.html" target="_self">preprocessor__define.pro</a>:<i>The preprocessor IDL object is used by the PrepServer to pre-process
+		solar data. It bridges between the PreProcessor's Java classes and SSW's IDL routines.</i></p>
+		
+		<h3>Java Objects and Programs</h3>
+		<p><a href="generated/index.html" target="_self">PrepServer Java API Documentation</a>: <i>This is the Java Doc generated PrepServer API.</i></p>
+		
+		<hr/>
+		
+		<h2>Posters</h2>
+		<p><a href="manual/general/0906.SPD.PrepServer.jpg" target="_self">SPD VSO Poster June 2009</a></p>
+	</body>
+	
+</html>

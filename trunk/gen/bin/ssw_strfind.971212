@@ -1,0 +1,23 @@
+#!/bin/csh -f 
+#
+# Circa 1-jan-97 - S.L.Freeland - UNIX front end to 'ssw_strfind.pro'
+# 7-oct-97       - S.L.Freeland - add yymmdd.hhmmss to job name
+#                                 (allow parallel runs)
+
+# submit "batch" job to find string in ssw tree
+#
+if ($#argv == 0) then 
+   echo "need to supply search pattern"
+   exit
+endif
+
+setenv IDL_PATH $HOME
+set job=$HOME"/ssw_find_"`date2fid _`
+set pro=$job".pro"
+
+echo "ssw_strfind,/mail,/details,'"$argv[1]"'" > $pro
+echo "end" >> $pro
+$SSW/gen/bin/ssw_batch $job $SSW/site/logs/ssw_find_`date2fid _`".log" &
+sleep 1       # wait 1 second to assure uniq job names
+exit
+

@@ -1,0 +1,21 @@
+body {
+	font-family: helvetica, sans-serif;
+	font-size: 12pt;
+}
+
+.code_red {
+	color: black;
+	font-family: courier new;
+	background-color: aliceblue;
+}
+
+div.popup {
+	font-size: 110%;
+	position: absolute;
+	visibility: hidden;
+	background-color: linen;
+	layer-background-color: linen;
+	border: 1px solid black;
+	padding: 3px;
+	z-index: 10
+}
